@@ -119,10 +119,12 @@ php think run
 ## 项目结构
 
 ```
+src/
 ├── app/
 │   ├── command/          # 命令行工具
 │   │   └── InitDatabase.php        # 数据库初始化命令
 │   ├── controller/       # 控制器
+│   │   ├── Index.php              # 默认控制器
 │   │   └── VerifyController.php    # 验证码相关接口
 │   ├── middleware/       # 中间件
 │   │   └── ApiAuth.php            # API 密钥认证中间件
@@ -132,24 +134,42 @@ php think run
 │   ├── BaseController.php         # 基础控制器
 │   ├── AppService.php             # 应用服务
 │   ├── ExceptionHandle.php        # 异常处理
-│   └── Request.php                # 请求类
+│   ├── Request.php                # 请求类
+│   ├── common.php                 # 公共函数
+│   ├── event.php                  # 事件定义
+│   ├── middleware.php             # 中间件配置
+│   ├── provider.php               # 服务提供者
+│   └── service.php                # 服务定义
 ├── config/               # 配置文件
 │   ├── app.php                   # 应用配置
 │   ├── database.php              # 数据库配置
 │   ├── geetest.php               # 极验配置
+│   ├── cache.php                 # 缓存配置
+│   ├── log.php                   # 日志配置
+│   ├── middleware.php            # 中间件配置
+│   ├── route.php                 # 路由配置
+│   ├── session.php               # 会话配置
 │   └── ...                       # 其他配置文件
 ├── database/             # 数据库文件
-│   └── migrations/
-│       └── Geetest_Table.sql     # 数据库迁移文件
+│   ├── migrations/
+│   │   └── Geetest_Table.sql     # 数据库迁移文件
+│   └── .gitkeep
 ├── public/               # 静态资源和入口文件
 │   ├── index.php                 # 应用入口
 │   ├── router.php                # 路由文件
-│   └── runtime/                  # 运行时文件
+│   ├── runtime/                  # 运行时文件
+│   │   └── Geetest/              # 极验缓存
+│   └── static/                   # 静态资源
 ├── route/                # 路由配置
 │   └── app.php                   # 路由定义
-├── vendor/               # 第三方依赖
+├── extend/               # 扩展类库
+│   └── .gitignore
+├── runtime/              # 运行时缓存
+│   └── .gitignore
 ├── .example.env          # 环境变量模板
-├── .env                  # 环境变量（需自行创建）
+├── .gitignore            # Git 忽略文件
+├── .htaccess             # Apache 配置
+├── .travis.yml           # Travis CI 配置
 ├── composer.json         # Composer 配置
 └── think                 # ThinkPHP 命令行工具
 ```
