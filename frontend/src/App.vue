@@ -13,8 +13,11 @@
           >
             <template #extra>
               <div class="code">{{ code }}</div>
+              <a-typography-paragraph v-if="expireMinutes" style="margin: 12px 0 0; text-align: center">
+                绑定码{{ expireMinutes }}分钟内有效，请及时使用。
+              </a-typography-paragraph>
               <a-space direction="vertical" size="medium" fill style="margin-top: 16px">
-                <a-button type="primary" long @click="copyCode">复制验证码</a-button>
+                <a-button type="primary" long @click="copyCode">复制绑定码</a-button>
                 <a-button long @click="refreshStatus">刷新状态</a-button>
               </a-space>
             </template>
@@ -55,6 +58,7 @@ const error = ref('');
 const verified = ref(false);
 const code = ref('');
 const captchaId = ref('');
+const expireMinutes = ref(null);
 const captchaReady = ref(false);
 const submitting = ref(false);
 
@@ -96,6 +100,7 @@ function showExpired() {
   error.value = '验证链接已过期或不存在';
   verified.value = false;
   code.value = '';
+  expireMinutes.value = null;
 }
 
 function initGeetest() {
@@ -238,6 +243,9 @@ async function refreshStatus() {
       error.value = data.msg || '加载失败';
       return;
     }
+
+    const expire = data.data && typeof data.data.expire_minutes !== 'undefined' ? Number(data.data.expire_minutes) : null;
+    expireMinutes.value = Number.isFinite(expire) && expire > 0 ? Math.ceil(expire) : null;
 
     if (data.data && data.data.verified) {
       verified.value = true;

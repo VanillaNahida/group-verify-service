@@ -1,9 +1,7 @@
 <?php
 namespace app\middleware;
 
-use think\facade\Config;
 use think\facade\Env;
-use think\response\Json;
 
 class ApiAuth
 {

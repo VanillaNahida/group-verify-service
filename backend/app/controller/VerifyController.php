@@ -42,8 +42,9 @@ class VerifyController extends BaseController
         
         // 生成验证链接
         $validate = $this->request->domain() . '/v/' . $token;
+        $expire = $GeetestModel->getCodeExpire();
         //构建json并返回
-        $result = ['code' => 0,'msg' => 'success','data' => ['ticket' => $token,'url' => $validate,'expire' => 300,]];
+        $result = ['code' => 0,'msg' => 'success','data' => ['ticket' => $token,'url' => $validate,'expire' => $expire,]];
         return json($result);
     }
 
@@ -80,6 +81,8 @@ class VerifyController extends BaseController
         }
 
         $GeetestModel = new GeetestModel();
+        $codeExpire = $GeetestModel->getCodeExpire();
+        $expireMinutes = (int)ceil($codeExpire / 60);
         $data = $GeetestModel->getVerifyData($ticket);
 
         if (!$data) {
@@ -87,11 +90,31 @@ class VerifyController extends BaseController
         }
 
         if (!empty($data['verified'])) {
-            return json(['code' => 0, 'msg' => 'success', 'data' => ['ticket' => $ticket, 'verified' => true, 'code' => $data['code']]]);
+            return json([
+                'code' => 0,
+                'msg' => 'success',
+                'data' => [
+                    'ticket' => $ticket,
+                    'verified' => true,
+                    'code' => $data['code'],
+                    'code_expire' => $codeExpire,
+                    'expire_minutes' => $expireMinutes,
+                ],
+            ]);
         }
 
         $captchaId = $GeetestModel->getCaptchaId();
-        return json(['code' => 0, 'msg' => 'success', 'data' => ['ticket' => $ticket, 'verified' => false, 'captcha_id' => $captchaId]]);
+        return json([
+            'code' => 0,
+            'msg' => 'success',
+            'data' => [
+                'ticket' => $ticket,
+                'verified' => false,
+                'captcha_id' => $captchaId,
+                'code_expire' => $codeExpire,
+                'expire_minutes' => $expireMinutes,
+            ],
+        ]);
     }
 
     /**

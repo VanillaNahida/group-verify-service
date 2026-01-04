@@ -199,6 +199,12 @@ class GeetestModel
         return self::$captchaId;
     }
 
+    public static function getCodeExpire()
+    {
+        self::initConfig();
+        return self::$codeExpire;
+    }
+
     public static function cleanExpiredCodes()
     {
         self::initConfig();

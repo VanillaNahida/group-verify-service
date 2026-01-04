@@ -267,7 +267,9 @@ Authorization: Bearer 你的API密钥
   "data": {
     "ticket": "xxx",
     "verified": false,
-    "captcha_id": "你的captcha_id"
+    "captcha_id": "你的captcha_id",
+    "code_expire": 300,
+    "expire_minutes": 5
   }
 }
 ```
@@ -281,7 +283,9 @@ Authorization: Bearer 你的API密钥
   "data": {
     "ticket": "xxx",
     "verified": true,
-    "code": "A3B5C7"
+    "code": "A3B5C7",
+    "code_expire": 300,
+    "expire_minutes": 5
   }
 }
 ```
