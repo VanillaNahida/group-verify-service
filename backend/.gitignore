@@ -1,0 +1,10 @@
+*.log
+.env
+.DS_Store
+geetest.db
+/.idea
+/.vscode
+/.settings
+/.buildpath
+/.project
+/database/*.db

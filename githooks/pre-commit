@@ -1,0 +1,32 @@
+#!/bin/sh
+set -e
+
+if [ ! -d "frontend" ]; then
+  exit 0
+fi
+
+need_build=0
+for f in $(git diff --cached --name-only --diff-filter=ACMR); do
+  case "$f" in
+    frontend/*|backend/public/static/verify/*)
+      need_build=1
+      break
+      ;;
+  esac
+done
+
+if [ "$need_build" -ne 1 ]; then
+  exit 0
+fi
+
+if command -v npm >/dev/null 2>&1; then
+  if ! (cd frontend && npm run build); then
+    echo "pre-commit: 前端构建失败，请确保前端可以正常构建" >&2
+    exit 1
+  fi
+  git add backend/public/static/verify >/dev/null 2>&1 || true
+  exit 0
+fi
+
+echo "pre-commit: 未找到 npm，无法构建前端，请先安装 npm 并在 frontend 目录下运行 npm i 安装相关依赖" >&2
+exit 1
