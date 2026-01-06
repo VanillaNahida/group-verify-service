@@ -31,7 +31,7 @@ class Index extends BaseController
             'geetest_captcha_key'  => '',
             'geetest_api_server'   => 'https://gcaptcha4.geetest.com',
             'geetest_code_expire'  => '300',
-            'api_key'              => '',
+            'api_key'              => $this->generateApiKey(),
             'salt'                 => $this->generateSalt(),
             'db_sqlite_path'       => './database/geetest.db',
         ];
@@ -59,6 +59,9 @@ class Index extends BaseController
 
         if ($values['salt'] === '') {
             $values['salt'] = $defaults['salt'];
+        }
+        if ($values['api_key'] === '') {
+            $values['api_key'] = $defaults['api_key'];
         }
 
         $errors = $this->validateSetupValues($values);
@@ -110,6 +113,15 @@ class Index extends BaseController
             return bin2hex(random_bytes(32));
         } catch (\Throwable $e) {
             return hash('sha256', uniqid('', true) . microtime(true));
+        }
+    }
+
+    private function generateApiKey(): string
+    {
+        try {
+            return bin2hex(random_bytes(32));
+        } catch (\Throwable $e) {
+            return hash('sha256', uniqid('api_key', true) . microtime(true));
         }
     }
 
@@ -508,62 +520,62 @@ a{color:#1677ff;text-decoration:none;}
 a:hover{text-decoration:underline;}
 </style></head><body><h1>' . $titleEscaped . '</h1>' . $body . '<script>
 (function(){
-  var wizard = document.querySelector(\".wizard[data-initial-step]\");
+  var wizard = document.querySelector(".wizard[data-initial-step]");
   if (!wizard) return;
-  var form = document.getElementById(\"setupForm\");
-  var steps = Array.prototype.slice.call(document.querySelectorAll(\"#setupSteps .step-item\"));
-  var panels = Array.prototype.slice.call(document.querySelectorAll(\"#setupForm .panel\"));
-  var btnPrev = document.getElementById(\"btnPrev\");
-  var btnNext = document.getElementById(\"btnNext\");
-  var btnSubmit = document.getElementById(\"btnSubmit\");
-  var confirmText = document.getElementById(\"confirmText\");
-  var current = parseInt(wizard.getAttribute(\"data-initial-step\") || \"1\", 10);
+  var form = document.getElementById("setupForm");
+  var steps = Array.prototype.slice.call(document.querySelectorAll("#setupSteps .step-item"));
+  var panels = Array.prototype.slice.call(document.querySelectorAll("#setupForm .panel"));
+  var btnPrev = document.getElementById("btnPrev");
+  var btnNext = document.getElementById("btnNext");
+  var btnSubmit = document.getElementById("btnSubmit");
+  var confirmText = document.getElementById("confirmText");
+  var current = parseInt(wizard.getAttribute("data-initial-step") || "1", 10);
 
   function setActiveStep(n){
     current = n;
     steps.forEach(function(el){
-      var s = parseInt(el.getAttribute(\"data-step\") || \"0\", 10);
-      el.classList.toggle(\"active\", s === n);
+      var s = parseInt(el.getAttribute("data-step") || "0", 10);
+      el.classList.toggle("active", s === n);
     });
     panels.forEach(function(el){
-      var p = parseInt(el.getAttribute(\"data-panel\") || \"0\", 10);
-      el.classList.toggle(\"active\", p === n);
+      var p = parseInt(el.getAttribute("data-panel") || "0", 10);
+      el.classList.toggle("active", p === n);
     });
     btnPrev.disabled = n <= 1;
-    btnNext.style.display = n >= 3 ? \"none\" : \"inline-flex\";
-    btnSubmit.style.display = n === 3 ? \"inline-flex\" : \"none\";
+    btnNext.style.display = n >= 3 ? "none" : "inline-flex";
+    btnSubmit.style.display = n === 3 ? "inline-flex" : "none";
     if (n === 3) buildConfirm();
   }
 
   function mask(v){
-    v = (v || \"\").trim();
-    if (v.length <= 8) return \"******\";
-    return v.slice(0, 4) + \"...\" + v.slice(-4);
+    v = (v || "").trim();
+    if (v.length <= 8) return "******";
+    return v.slice(0, 4) + "..." + v.slice(-4);
   }
 
   function getValue(name){
-    var el = form.querySelector(\"[name=\\\"\" + name + \"\\\"]\");
-    return el ? (el.value || \"\") : \"\";
+    var el = form.querySelector(\'[name="\' + name + \'"]\');
+    return el ? (el.value || "") : "";
   }
 
   function buildConfirm(){
     var lines = [];
-    lines.push(\"GEETEST_CAPTCHA_ID: \" + getValue(\"geetest_captcha_id\"));
-    lines.push(\"GEETEST_CAPTCHA_KEY: \" + mask(getValue(\"geetest_captcha_key\")));
-    lines.push(\"GEETEST_API_SERVER: \" + getValue(\"geetest_api_server\"));
-    lines.push(\"GEETEST_CODE_EXPIRE: \" + getValue(\"geetest_code_expire\"));
-    lines.push(\"API_KEY: \" + mask(getValue(\"api_key\")));
-    lines.push(\"SALT: \" + mask(getValue(\"salt\")));
-    lines.push(\"DB_SQLITE_PATH: \" + getValue(\"db_sqlite_path\"));
-    lines.push(\"APP_DEBUG: \" + getValue(\"app_debug\"));
-    confirmText.textContent = lines.join(\"\\n\");
+    lines.push("GEETEST_CAPTCHA_ID: " + getValue("geetest_captcha_id"));
+    lines.push("GEETEST_CAPTCHA_KEY: " + mask(getValue("geetest_captcha_key")));
+    lines.push("GEETEST_API_SERVER: " + getValue("geetest_api_server"));
+    lines.push("GEETEST_CODE_EXPIRE: " + getValue("geetest_code_expire"));
+    lines.push("API_KEY: " + mask(getValue("api_key")));
+    lines.push("SALT: " + mask(getValue("salt")));
+    lines.push("DB_SQLITE_PATH: " + getValue("db_sqlite_path"));
+    lines.push("APP_DEBUG: " + getValue("app_debug"));
+    confirmText.textContent = lines.join("\n");
   }
 
-  btnPrev.addEventListener(\"click\", function(){
+  btnPrev.addEventListener("click", function(){
     if (current > 1) setActiveStep(current - 1);
   });
 
-  btnNext.addEventListener(\"click\", function(){
+  btnNext.addEventListener("click", function(){
     if (current === 2) {
       if (!form.reportValidity()) return;
     }

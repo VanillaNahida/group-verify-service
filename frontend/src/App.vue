@@ -67,9 +67,18 @@ let captchaObj = null;
 const title = computed(() => (verified.value ? '验证成功' : '入群验证'));
 
 function parseTicketFromPath() {
+  const search = window.location.search || '';
+  const sp = new URLSearchParams(search);
+  const q = sp.get('ticket');
+  if (q) return q;
+
   const path = window.location.pathname || '';
-  const m = path.match(/\/v\/([^/?#]+)/);
-  return m && m[1] ? decodeURIComponent(m[1]) : '';
+  const m1 = path.match(/\/v\/([^/?#]+)/);
+  if (m1 && m1[1]) return decodeURIComponent(m1[1]);
+
+  const hash = window.location.hash || '';
+  const m2 = hash.match(/#\/v\/([^/?#]+)/);
+  return m2 && m2[1] ? decodeURIComponent(m2[1]) : '';
 }
 
 function toFormBody(obj) {
