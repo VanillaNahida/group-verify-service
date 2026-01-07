@@ -1,4 +1,5 @@
 # 入群极验验证后端服务 (group-verify-service)
+## 原作：[yjwmidc/group-verify-service](https://github.com/yjwmidc/group-verify-service/)
 
 <div align="center">
 
@@ -522,7 +523,7 @@ cd backend && php think run
 
 ## 许可证
 
-GPL-3.0 License
+Apache-2.0 license
 
 ## 贡献
 
