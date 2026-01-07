@@ -1,9 +1,8 @@
 <?php
 namespace app\model;
 
-use think\Model;
-use think\facade\Config;
 use think\facade\Request;
+use think\facade\Db;
 
 class GeetestModel
 {
@@ -13,6 +12,91 @@ class GeetestModel
     protected static int $codeExpire;
     protected static string $salt;
     protected static bool $initialized = false;
+    protected static bool $settingsReady = false;
+
+    protected static function ensureSettingsReady(): void
+    {
+        if (self::$settingsReady) {
+            return;
+        }
+
+        try {
+            Db::name('settings')->where('id', '>', 0)->limit(1)->value('id');
+            self::$settingsReady = true;
+            return;
+        } catch (\Throwable $e) {
+        }
+
+        try {
+            try {
+                Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
+                    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+                    `name` VARCHAR(128) NOT NULL UNIQUE,
+                    `value` TEXT NOT NULL,
+                    `created_at` INTEGER UNSIGNED NOT NULL,
+                    `updated_at` INTEGER UNSIGNED NOT NULL
+                )');
+                Db::execute('CREATE INDEX IF NOT EXISTS `idx_settings_name` ON `settings` (`name`)');
+            } catch (\Throwable $e) {
+                Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
+                    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    `name` VARCHAR(128) NOT NULL UNIQUE,
+                    `value` TEXT NOT NULL,
+                    `created_at` INT UNSIGNED NOT NULL,
+                    `updated_at` INT UNSIGNED NOT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+            }
+        } catch (\Throwable $e) {
+        }
+
+        self::$settingsReady = true;
+    }
+
+    protected static function getSetting(string $key, $default = null)
+    {
+        self::ensureSettingsReady();
+        try {
+            try {
+                $value = Db::name('settings')->where('name', $key)->value('value');
+                if ($value !== null) {
+                    return $value;
+                }
+            } catch (\Throwable $e) {
+                $value = Db::name('settings')->where('key', $key)->value('value');
+                if ($value !== null) {
+                    return $value;
+                }
+            }
+        } catch (\Throwable $e) {
+        }
+
+        $envValue = env($key, null);
+        if ($envValue === null) {
+            return $default;
+        }
+
+        $ts = time();
+        try {
+            try {
+                Db::name('settings')->insert([
+                    'name' => $key,
+                    'value' => (string)$envValue,
+                    'created_at' => $ts,
+                    'updated_at' => $ts,
+                ]);
+            } catch (\Throwable $e) {
+                Db::name('settings')->insert([
+                    'key' => $key,
+                    'value' => (string)$envValue,
+                    'created_at' => $ts,
+                    'updated_at' => $ts,
+                ]);
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return $envValue;
+    }
 
     protected static function initConfig()
     {
@@ -20,12 +104,11 @@ class GeetestModel
             return;
         }
 
-        $config = Config::get('geetest');
-        self::$captchaId = $config['captcha_id'];
-        self::$captchaKey = $config['captcha_key'];
-        self::$apiServer = $config['api_server'];
-        self::$codeExpire = $config['code_expire'];
-        self::$salt = $config['salt'] ?? '';
+        self::$captchaId = (string)self::getSetting('GEETEST_CAPTCHA_ID', '');
+        self::$captchaKey = (string)self::getSetting('GEETEST_CAPTCHA_KEY', '');
+        self::$apiServer = (string)self::getSetting('GEETEST_API_SERVER', 'https://gcaptcha4.geetest.com');
+        self::$codeExpire = (int)self::getSetting('GEETEST_CODE_EXPIRE', 300);
+        self::$salt = (string)self::getSetting('SALT', '');
 
         self::$initialized = true;
     }

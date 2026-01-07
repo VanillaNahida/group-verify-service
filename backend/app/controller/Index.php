@@ -104,6 +104,12 @@ class Index extends BaseController
             return $this->renderSetupForm([$initResult], $values, $checks);
         }
 
+        $persistResult = $this->persistSettingsToSqlite($dbPath, $values);
+        if ($persistResult !== true) {
+            @unlink($envPath);
+            return $this->renderSetupForm([$persistResult], $values, $checks);
+        }
+
         return $this->renderSetupSuccess();
     }
 
@@ -204,26 +210,7 @@ class Index extends BaseController
 
     private function buildEnvContent(array $values): string
     {
-        $appDebug = strtolower($values['app_debug']);
-        if ($appDebug === '1') {
-            $appDebug = 'true';
-        }
-        if ($appDebug === '0') {
-            $appDebug = 'false';
-        }
-
         $lines = [];
-        $lines[] = 'APP_DEBUG = ' . $appDebug;
-        $lines[] = 'WITH_ROUTE = true';
-        $lines[] = 'DEFAULT_APP = index';
-        $lines[] = 'DEFAULT_TIMEZONE = Asia/Shanghai';
-        $lines[] = 'SHOW_ERROR_MSG = false';
-        $lines[] = 'GEETEST_CAPTCHA_ID = ' . $this->envEncode($values['geetest_captcha_id']);
-        $lines[] = 'GEETEST_CAPTCHA_KEY = ' . $this->envEncode($values['geetest_captcha_key']);
-        $lines[] = 'GEETEST_API_SERVER = ' . $this->envEncode($values['geetest_api_server']);
-        $lines[] = 'GEETEST_CODE_EXPIRE = ' . $values['geetest_code_expire'];
-        $lines[] = 'API_KEY = ' . $this->envEncode($values['api_key']);
-        $lines[] = 'SALT = ' . $this->envEncode($values['salt']);
         $lines[] = 'DB_DRIVER = sqlite';
         $lines[] = 'DB_SQLITE_PATH = ' . $this->envEncode($values['db_sqlite_path']);
 
@@ -291,6 +278,59 @@ class Index extends BaseController
         return true;
     }
 
+    private function persistSettingsToSqlite(string $absoluteDbPath, array $values)
+    {
+        try {
+            $pdo = new \PDO('sqlite:' . $absoluteDbPath);
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            $nameColumn = 'name';
+            try {
+                $columns = $pdo->query("PRAGMA table_info(settings)")->fetchAll(\PDO::FETCH_ASSOC);
+                $names = array_map(static fn($r) => (string)($r['name'] ?? ''), $columns ?: []);
+                if (!in_array('name', $names, true) && in_array('key', $names, true)) {
+                    $nameColumn = 'key';
+                }
+            } catch (\Throwable $e) {
+            }
+
+            $pairs = [
+                'APP_DEBUG' => strtolower((string)$values['app_debug']),
+                'GEETEST_CAPTCHA_ID' => (string)$values['geetest_captcha_id'],
+                'GEETEST_CAPTCHA_KEY' => (string)$values['geetest_captcha_key'],
+                'GEETEST_API_SERVER' => (string)$values['geetest_api_server'],
+                'GEETEST_CODE_EXPIRE' => (string)$values['geetest_code_expire'],
+                'API_KEY' => (string)$values['api_key'],
+                'SALT' => (string)$values['salt'],
+            ];
+
+            $ts = time();
+            $updateStmt = $pdo->prepare('UPDATE settings SET value = :value, updated_at = :updated_at WHERE ' . $nameColumn . ' = :name');
+            $insertStmt = $pdo->prepare('INSERT INTO settings (' . $nameColumn . ', value, created_at, updated_at) VALUES (:name, :value, :created_at, :updated_at)');
+
+            foreach ($pairs as $key => $value) {
+                $updateStmt->execute([
+                    ':value' => $value,
+                    ':updated_at' => $ts,
+                    ':name' => $key,
+                ]);
+
+                if ((int)$updateStmt->rowCount() === 0) {
+                    $insertStmt->execute([
+                        ':name' => $key,
+                        ':value' => $value,
+                        ':created_at' => $ts,
+                        ':updated_at' => $ts,
+                    ]);
+                }
+            }
+        } catch (\Throwable $e) {
+            return '写入配置到数据库失败：' . $e->getMessage();
+        }
+
+        return true;
+    }
+
     private function renderSetupDone(): string
     {
         $body = '
@@ -322,7 +362,7 @@ class Index extends BaseController
   </ol>
   <section class="panel active">
     <h2>初始化成功</h2>
-    <p class="desc">已生成 <span class="mono">.env</span> 并初始化 SQLite 数据库。</p>
+    <p class="desc">已生成 <span class="mono">.env</span>（仅数据库连接）并初始化 SQLite 数据库，同时写入配置到 <span class="mono">settings</span> 表。</p>
   </section>
 </div>';
 
@@ -388,7 +428,7 @@ class Index extends BaseController
 
     <section class="panel" data-panel="2">
       <h2>步骤 2：填写配置</h2>
-      <p class="desc">这些配置会写入 <span class="mono">backend/.env</span>。提交后会自动初始化 SQLite 数据库（默认 <span class="mono">backend/database/geetest.db</span>）。</p>
+      <p class="desc">这些配置会写入 SQLite 数据库的 <span class="mono">settings</span> 表；<span class="mono">backend/.env</span> 仅保存数据库连接信息。提交后会自动初始化 SQLite 数据库（默认 <span class="mono">backend/database/geetest.db</span>）。</p>
 
       <div class="group">
         <div class="group-title">极验配置</div>
@@ -449,7 +489,7 @@ class Index extends BaseController
 
     <section class="panel" data-panel="3">
       <h2>步骤 3：确认生成</h2>
-      <p class="desc">将生成 <span class="mono">backend/.env</span> 并初始化数据库。请确认配置无误。</p>
+      <p class="desc">将生成 <span class="mono">backend/.env</span>（仅数据库连接）并初始化数据库，同时写入配置到 <span class="mono">settings</span> 表。请确认配置无误。</p>
       <div class="confirm"><pre class="mono" id="confirmText"></pre></div>
       <div class="tips"><p>点击“生成”后，如果失败会显示具体错误原因；修正后重新提交即可。</p></div>
     </section>
@@ -457,7 +497,7 @@ class Index extends BaseController
     <div class="actions">
       <button type="button" class="btn" id="btnPrev">上一步</button>
       <button type="button" class="btn primary" id="btnNext">下一步</button>
-      <button type="submit" class="btn primary" id="btnSubmit">生成 .env 并初始化</button>
+      <button type="submit" class="btn primary" id="btnSubmit">写入配置并初始化</button>
     </div>
   </form>
 </div>';

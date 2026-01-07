@@ -1,10 +1,98 @@
 <?php
 namespace app\middleware;
 
-use think\facade\Env;
+use think\facade\Db;
 
 class ApiAuth
 {
+    protected static ?string $cachedApiKey = null;
+    protected static bool $settingsReady = false;
+
+    protected function ensureSettingsReady(): void
+    {
+        if (self::$settingsReady) {
+            return;
+        }
+
+        try {
+            Db::name('settings')->where('id', '>', 0)->limit(1)->value('id');
+            self::$settingsReady = true;
+            return;
+        } catch (\Throwable $e) {
+        }
+
+        try {
+            try {
+                Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
+                    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+                    `name` VARCHAR(128) NOT NULL UNIQUE,
+                    `value` TEXT NOT NULL,
+                    `created_at` INTEGER UNSIGNED NOT NULL,
+                    `updated_at` INTEGER UNSIGNED NOT NULL
+                )');
+                Db::execute('CREATE INDEX IF NOT EXISTS `idx_settings_name` ON `settings` (`name`)');
+            } catch (\Throwable $e) {
+                Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
+                    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    `name` VARCHAR(128) NOT NULL UNIQUE,
+                    `value` TEXT NOT NULL,
+                    `created_at` INT UNSIGNED NOT NULL,
+                    `updated_at` INT UNSIGNED NOT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+            }
+        } catch (\Throwable $e) {
+        }
+
+        self::$settingsReady = true;
+    }
+
+    protected function getApiKey(): ?string
+    {
+        if (self::$cachedApiKey !== null) {
+            return self::$cachedApiKey;
+        }
+
+        $this->ensureSettingsReady();
+
+        $apiKey = null;
+        try {
+            try {
+                $apiKey = Db::name('settings')->where('name', 'API_KEY')->value('value');
+            } catch (\Throwable $e) {
+                $apiKey = Db::name('settings')->where('key', 'API_KEY')->value('value');
+            }
+        } catch (\Throwable $e) {
+        }
+
+        if ($apiKey === null) {
+            $apiKey = env('API_KEY', null);
+            if ($apiKey !== null) {
+                $ts = time();
+                try {
+                    try {
+                        Db::name('settings')->insert([
+                            'name' => 'API_KEY',
+                            'value' => (string)$apiKey,
+                            'created_at' => $ts,
+                            'updated_at' => $ts,
+                        ]);
+                    } catch (\Throwable $e) {
+                        Db::name('settings')->insert([
+                            'key' => 'API_KEY',
+                            'value' => (string)$apiKey,
+                            'created_at' => $ts,
+                            'updated_at' => $ts,
+                        ]);
+                    }
+                } catch (\Throwable $e) {
+                }
+            }
+        }
+
+        self::$cachedApiKey = $apiKey !== null ? (string)$apiKey : null;
+        return self::$cachedApiKey;
+    }
+
     /**
      * 验证API密钥
      *
@@ -14,8 +102,13 @@ class ApiAuth
      */
     public function handle($request, \Closure $next)
     {
-        // 从环境变量中获取API密钥
-        $apiKey = Env::get('API_KEY');
+        $apiKey = $this->getApiKey();
+        if ($apiKey === null || $apiKey === '') {
+            return json([
+                'code' => 500,
+                'msg' => 'Service not initialized: API key missing'
+            ], 500);
+        }
         
         // 获取请求头中的Authorization
         $authorization = $request->header('Authorization');
