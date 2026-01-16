@@ -1,7 +1,6 @@
 <?php
 namespace app\controller;
 
-use app\BaseController;
 use app\model\GeetestModel;
 
 class VerifyController extends BaseController
