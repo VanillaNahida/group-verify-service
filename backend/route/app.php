@@ -10,12 +10,8 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP8!';
-});
-
-Route::get('hello/:name', 'index/hello');
-Route::any('setup', 'index/setup');
+Route::get('hello/:name', 'IndexController/hello');
+Route::any('setup', 'IndexController/setup');
 
 //验证路由
 Route::group('verify', function () {
