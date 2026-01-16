@@ -6,10 +6,6 @@ use think\App;
 // 命令行入口文件
 // 加载基础文件
 $autoloadPath = __DIR__ . '/vendor/autoload.php';
-if (!is_file($autoloadPath)) {
-    fwrite(STDERR, "缺少 vendor/：请在本地或CI执行 composer install --no-dev -o 后再上传（包含vendor）\n");
-    exit(1);
-}
 
 require $autoloadPath;
 
