@@ -90,9 +90,6 @@ composer install --no-dev -o
 > Nginx 用户请务必配置伪静态（否则 ThinkPHP 路由可能无法生效），并禁止直接访问运行目录。示例（放在 `server {}` 中）：
 >
 > ```nginx
-> location ~* (runtime|application)/{
->     return 403;
-> }
 > location / {
 >     if (!-e $request_filename){
 >         rewrite  ^(.*)$  /index.php?s=$1  last;   break;
