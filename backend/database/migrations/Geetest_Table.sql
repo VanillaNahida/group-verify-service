@@ -1,6 +1,7 @@
 -- 创建验证表
 CREATE TABLE IF NOT EXISTS `GeetestTable` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+    `api_key_id` INTEGER DEFAULT NULL,
     `token` VARCHAR(64) NOT NULL UNIQUE,
     `group_id` VARCHAR(64) NOT NULL,
     `user_id` VARCHAR(64) NOT NULL,
@@ -21,3 +22,15 @@ CREATE TABLE IF NOT EXISTS `GeetestTable` (
 CREATE INDEX IF NOT EXISTS `idx_code_group` ON `GeetestTable` (`code`, `group_id`);
 CREATE INDEX IF NOT EXISTS `idx_group_user` ON `GeetestTable` (`group_id`, `user_id`);
 CREATE INDEX IF NOT EXISTS `idx_expire` ON `GeetestTable` (`expire_at`);
+CREATE INDEX IF NOT EXISTS `idx_api_key_expire` ON `GeetestTable` (`api_key_id`, `expire_at`);
+
+-- 创建配置表
+CREATE TABLE IF NOT EXISTS `settings` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+    `name` VARCHAR(128) NOT NULL UNIQUE,
+    `value` TEXT NOT NULL,
+    `created_at` INTEGER UNSIGNED NOT NULL,
+    `updated_at` INTEGER UNSIGNED NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS `idx_settings_name` ON `settings` (`name`);

@@ -1,9 +1,8 @@
 <?php
 namespace app\model;
 
-use think\Model;
-use think\facade\Config;
 use think\facade\Request;
+use think\facade\Db;
 
 class GeetestModel
 {
@@ -13,6 +12,92 @@ class GeetestModel
     protected static int $codeExpire;
     protected static string $salt;
     protected static bool $initialized = false;
+    protected static bool $settingsReady = false;
+    protected static bool $ownershipReady = false;
+
+    protected static function ensureSettingsReady(): void
+    {
+        if (self::$settingsReady) {
+            return;
+        }
+
+        try {
+            Db::name('settings')->where('id', '>', 0)->limit(1)->value('id');
+            self::$settingsReady = true;
+            return;
+        } catch (\Throwable $e) {
+        }
+
+        try {
+            try {
+                Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
+                    `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+                    `name` VARCHAR(128) NOT NULL UNIQUE,
+                    `value` TEXT NOT NULL,
+                    `created_at` INTEGER UNSIGNED NOT NULL,
+                    `updated_at` INTEGER UNSIGNED NOT NULL
+                )');
+                Db::execute('CREATE INDEX IF NOT EXISTS `idx_settings_name` ON `settings` (`name`)');
+            } catch (\Throwable $e) {
+                Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
+                    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    `name` VARCHAR(128) NOT NULL UNIQUE,
+                    `value` TEXT NOT NULL,
+                    `created_at` INT UNSIGNED NOT NULL,
+                    `updated_at` INT UNSIGNED NOT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+            }
+        } catch (\Throwable $e) {
+        }
+
+        self::$settingsReady = true;
+    }
+
+    protected static function getSetting(string $key, $default = null)
+    {
+        self::ensureSettingsReady();
+        try {
+            try {
+                $value = Db::name('settings')->where('name', $key)->value('value');
+                if ($value !== null) {
+                    return $value;
+                }
+            } catch (\Throwable $e) {
+                $value = Db::name('settings')->where('key', $key)->value('value');
+                if ($value !== null) {
+                    return $value;
+                }
+            }
+        } catch (\Throwable $e) {
+        }
+
+        $envValue = env($key, null);
+        if ($envValue === null) {
+            return $default;
+        }
+
+        $ts = time();
+        try {
+            try {
+                Db::name('settings')->insert([
+                    'name' => $key,
+                    'value' => (string)$envValue,
+                    'created_at' => $ts,
+                    'updated_at' => $ts,
+                ]);
+            } catch (\Throwable $e) {
+                Db::name('settings')->insert([
+                    'key' => $key,
+                    'value' => (string)$envValue,
+                    'created_at' => $ts,
+                    'updated_at' => $ts,
+                ]);
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return $envValue;
+    }
 
     protected static function initConfig()
     {
@@ -20,14 +105,47 @@ class GeetestModel
             return;
         }
 
-        $config = Config::get('geetest');
-        self::$captchaId = $config['captcha_id'];
-        self::$captchaKey = $config['captcha_key'];
-        self::$apiServer = $config['api_server'];
-        self::$codeExpire = $config['code_expire'];
-        self::$salt = $config['salt'] ?? '';
+        self::$captchaId = (string)self::getSetting('GEETEST_CAPTCHA_ID', '');
+        self::$captchaKey = (string)self::getSetting('GEETEST_CAPTCHA_KEY', '');
+        self::$apiServer = (string)self::getSetting('GEETEST_API_SERVER', 'https://gcaptcha4.geetest.com');
+        self::$codeExpire = (int)self::getSetting('GEETEST_CODE_EXPIRE', 300);
+        self::$salt = (string)self::getSetting('SALT', '');
 
         self::$initialized = true;
+    }
+
+    protected static function ensureOwnershipReady(): void
+    {
+        if (self::$ownershipReady) {
+            return;
+        }
+
+        try {
+            Db::query('SELECT api_key_id FROM `GeetestTable` LIMIT 1');
+            self::$ownershipReady = true;
+            return;
+        } catch (\Throwable $e) {
+        }
+
+        try {
+            try {
+                Db::execute('ALTER TABLE `GeetestTable` ADD COLUMN `api_key_id` INTEGER DEFAULT NULL');
+            } catch (\Throwable $e) {
+                Db::execute('ALTER TABLE `GeetestTable` ADD COLUMN `api_key_id` INT UNSIGNED NULL');
+            }
+        } catch (\Throwable $e) {
+        }
+
+        try {
+            Db::execute('CREATE INDEX IF NOT EXISTS `idx_api_key_expire` ON `GeetestTable` (`api_key_id`, `expire_at`)');
+        } catch (\Throwable $e) {
+            try {
+                Db::execute('CREATE INDEX `idx_api_key_expire` ON `GeetestTable` (`api_key_id`, `expire_at`)');
+            } catch (\Throwable $e2) {
+            }
+        }
+
+        self::$ownershipReady = true;
     }
 
     public static function generateToken(string $gid, string $uid)
@@ -52,9 +170,11 @@ class GeetestModel
     public static function saveVerifyData(string $token, array $data)
     {
         self::initConfig();
+        self::ensureOwnershipReady();
 
         $validate = new GeetestTable();
         $validate->token = $token;
+        $validate->api_key_id = (int)($data['api_key_id'] ?? 0);
         $validate->group_id = $data['group_id'];
         $validate->user_id = $data['user_id'];
         $validate->code = $data['code'] ?? null;
@@ -208,8 +328,30 @@ class GeetestModel
     public static function cleanExpiredCodes()
     {
         self::initConfig();
+        self::ensureOwnershipReady();
 
-        return GeetestTable::where('expire_at', '<', time())->delete();
+        $apiKeyId = 0;
+        try {
+            $apiKeyId = (int)Request::middleware('api_key_id', 0);
+        } catch (\Throwable $e) {
+            $apiKeyId = 0;
+        }
+
+        $isDefault = false;
+        try {
+            $isDefault = (bool)Request::middleware('api_key_is_default', false);
+        } catch (\Throwable $e) {
+            $isDefault = false;
+        }
+
+        $q = GeetestTable::where('expire_at', '<', time());
+        if (!$isDefault && $apiKeyId > 0) {
+            $q = $q->where('api_key_id', $apiKeyId);
+        } elseif (!$isDefault) {
+            $q = $q->where('api_key_id', -1);
+        }
+
+        return $q->delete();
     }
 
     public static function markCodeAsUsed(string $code, string $gid)

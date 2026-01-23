@@ -23,6 +23,7 @@ Route::group('verify', function () {
     Route::post('create', 'VerifyController/create')->middleware(app\middleware\ApiAuth::class);      // Bot调用：生成验证链接
     Route::post('check', 'VerifyController/check')->middleware(app\middleware\ApiAuth::class);       // Bot调用：验证验证码
     Route::get('clean', 'VerifyController/clean')->middleware(app\middleware\ApiAuth::class);        // 定时任务：清理过期
+    Route::post('reset-key', 'VerifyController/resetKey')->middleware(app\middleware\ApiAuth::class); // 自助：重置当前 API Key
     
     // 不需要API密钥认证的路由
     Route::post('callback', 'VerifyController/callback'); // 前端提交：极验验证回调
@@ -31,4 +32,22 @@ Route::group('verify', function () {
 
 // 短链接路由
 Route::get('v/:ticket', 'VerifyController/page');
+
+Route::group('admin', function () {
+    Route::post('auth/login', 'AdminAuthController/login');
+
+    Route::get('dashboard', 'AdminSettingsController/dashboard')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+    Route::get('api-call-logs', 'AdminSettingsController/apiCallLogs')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+
+    Route::get('settings', 'AdminSettingsController/get')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+    Route::put('settings', 'AdminSettingsController/update')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+
+    Route::get('api-keys', 'AdminApiKeysController/list')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+    Route::post('api-keys', 'AdminApiKeysController/create')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+    Route::post('api-keys/:id/reset', 'AdminApiKeysController/reset')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+    Route::delete('api-keys/:id', 'AdminApiKeysController/delete')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
+})->middleware(app\middleware\AdminCors::class)->completeMatch(true);
+
+Route::get('admin', 'VerifyController/adminPage')->completeMatch(true)->removeSlash(true);
+Route::get('admin/login', 'VerifyController/adminPage')->completeMatch(true)->removeSlash(true);
 

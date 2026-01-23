@@ -16,6 +16,7 @@ class GeetestTable extends Model
 
     protected $schema = [
         'id' => 'int',
+        'api_key_id' => 'int',
         'token' => 'string',
         'group_id' => 'string',
         'user_id' => 'string',
