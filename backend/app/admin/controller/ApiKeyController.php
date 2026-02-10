@@ -13,7 +13,6 @@ use app\admin\validate\ApiKeyValidate;
 #[\AllowDynamicProperties]
 class ApiKeyController extends AdminBaseController
 {
-    protected $validate;
     public function initialize()
     {
         parent::initialize();
