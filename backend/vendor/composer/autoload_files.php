@@ -10,4 +10,8 @@ return array(
     '15ec93fa4ce4b2d53816a1a5f2c514e2' => $vendorDir . '/topthink/think-validate/src/helper.php',
     '7448f3465e10b5f033e4babb31eb0b06' => $vendorDir . '/topthink/think-orm/src/helper.php',
     '35fab96057f1bf5e7aba31a8a6d5fdde' => $vendorDir . '/topthink/think-orm/stubs/load_stubs.php',
+    '6e3fae29631ef280660b3cdad06f25a8' => $vendorDir . '/symfony/deprecation-contracts/function.php',
+    '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
+    '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
+    'd79a0e13e295db93891a9377e0888496' => $vendorDir . '/topthink/think-dumper/src/helper.php',
 );

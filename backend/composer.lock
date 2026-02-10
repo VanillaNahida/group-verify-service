@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d011e134d1acc4431ea1478829c15198",
+    "content-hash": "6e662ddd19f3ced09d2b7c22057185a9",
     "packages": [
         {
             "name": "league/flysystem",
-            "version": "3.30.2",
+            "version": "3.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277"
+                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277",
-                "reference": "5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
+                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
                 "shasum": ""
             },
             "require": {
@@ -85,22 +85,22 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.30.2"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.31.0"
             },
-            "time": "2025-11-10T17:13:11+00:00"
+            "time": "2026-01-23T15:38:47+00:00"
         },
         {
             "name": "league/flysystem-local",
-            "version": "3.30.2",
+            "version": "3.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-local.git",
-                "reference": "ab4f9d0d672f601b102936aa728801dd1a11968d"
+                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/ab4f9d0d672f601b102936aa728801dd1a11968d",
-                "reference": "ab4f9d0d672f601b102936aa728801dd1a11968d",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/2f669db18a4c20c755c2bb7d3a7b0b2340488079",
+                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079",
                 "shasum": ""
             },
             "require": {
@@ -134,9 +134,9 @@
                 "local"
             ],
             "support": {
-                "source": "https://github.com/thephpleague/flysystem-local/tree/3.30.2"
+                "source": "https://github.com/thephpleague/flysystem-local/tree/3.31.0"
             },
-            "time": "2025-11-10T11:23:37+00:00"
+            "time": "2026-01-23T15:30:45+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -249,16 +249,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.1",
+            "version": "2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
@@ -267,7 +267,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -282,7 +282,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -296,9 +296,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/1.1"
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
-            "time": "2023-04-04T09:50:52+00:00"
+            "time": "2023-04-04T09:54:51+00:00"
         },
         {
             "name": "psr/log",
@@ -403,16 +403,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v8.1.3",
+            "version": "v8.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "e4207e98b66f92d26097ed6efd535930cba90e8f"
+                "reference": "8e7b2b2364047cbf71a38c4e397a9ca0d4ef2b01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/e4207e98b66f92d26097ed6efd535930cba90e8f",
-                "reference": "e4207e98b66f92d26097ed6efd535930cba90e8f",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/8e7b2b2364047cbf71a38c4e397a9ca0d4ef2b01",
+                "reference": "8e7b2b2364047cbf71a38c4e397a9ca0d4ef2b01",
                 "shasum": ""
             },
             "require": {
@@ -420,7 +420,7 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "php": ">=8.0.0",
-                "psr/http-message": "^1.0",
+                "psr/http-message": "^1.0|^2.0",
                 "psr/log": "^1.0|^2.0|^3.0",
                 "psr/simple-cache": "^1.0|^2.0|^3.0",
                 "topthink/think-container": "^3.0",
@@ -429,6 +429,7 @@
                 "topthink/think-validate": "^3.0"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.92",
                 "guzzlehttp/psr7": "^2.1.0",
                 "mikey179/vfsstream": "^1.6",
                 "mockery/mockery": "^1.2",
@@ -464,9 +465,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v8.1.3"
+                "source": "https://github.com/top-think/framework/tree/v8.1.4"
             },
-            "time": "2025-07-14T03:48:44+00:00"
+            "time": "2026-01-15T02:45:10+00:00"
         },
         {
             "name": "topthink/think-container",
@@ -608,6 +609,54 @@
             "time": "2025-12-26T09:58:29+00:00"
         },
         {
+            "name": "topthink/think-multi-app",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-multi-app.git",
+                "reference": "f93c604d5cfac2b613756273224ee2f88e457b88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-multi-app/zipball/f93c604d5cfac2b613756273224ee2f88e457b88",
+                "reference": "f93c604d5cfac2b613756273224ee2f88e457b88",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "topthink/framework": "^6.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "think\\app\\Service"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "think\\app\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "thinkphp multi app support",
+            "support": {
+                "issues": "https://github.com/top-think/think-multi-app/issues",
+                "source": "https://github.com/top-think/think-multi-app/tree/v1.1.1"
+            },
+            "time": "2024-11-25T08:52:44+00:00"
+        },
+        {
             "name": "topthink/think-orm",
             "version": "v4.0.51",
             "source": {
@@ -668,6 +717,47 @@
             "time": "2025-12-18T13:11:52+00:00"
         },
         {
+            "name": "topthink/think-template",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-template.git",
+                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-template/zipball/0b88bd449f0f7626dd75b05f557c8bc208c08b0c",
+                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0",
+                "psr/simple-cache": ">=1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "the php template engine",
+            "support": {
+                "issues": "https://github.com/top-think/think-template/issues",
+                "source": "https://github.com/top-think/think-template/tree/v3.0.2"
+            },
+            "time": "2024-10-16T03:41:06+00:00"
+        },
+        {
             "name": "topthink/think-validate",
             "version": "v3.0.7",
             "source": {
@@ -710,6 +800,47 @@
                 "source": "https://github.com/top-think/think-validate/tree/v3.0.7"
             },
             "time": "2025-06-11T05:51:40+00:00"
+        },
+        {
+            "name": "topthink/think-view",
+            "version": "v2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-view.git",
+                "reference": "b42009b98199b5a3833d3d6fd18c8a55aa511fad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-view/zipball/b42009b98199b5a3833d3d6fd18c8a55aa511fad",
+                "reference": "b42009b98199b5a3833d3d6fd18c8a55aa511fad",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0",
+                "topthink/think-template": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\view\\driver\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "thinkphp template driver",
+            "support": {
+                "issues": "https://github.com/top-think/think-view/issues",
+                "source": "https://github.com/top-think/think-view/tree/v2.0.5"
+            },
+            "time": "2025-03-19T07:04:19+00:00"
         }
     ],
     "packages-dev": [
@@ -867,16 +998,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v7.4.3",
+            "version": "v7.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "7e99bebcb3f90d8721890f2963463280848cba92"
+                "reference": "0e4769b46a0c3c62390d124635ce59f66874b282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/7e99bebcb3f90d8721890f2963463280848cba92",
-                "reference": "7e99bebcb3f90d8721890f2963463280848cba92",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/0e4769b46a0c3c62390d124635ce59f66874b282",
+                "reference": "0e4769b46a0c3c62390d124635ce59f66874b282",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +1061,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.4.3"
+                "source": "https://github.com/symfony/var-dumper/tree/v7.4.4"
             },
             "funding": [
                 {
@@ -950,20 +1081,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-18T07:04:31+00:00"
+            "time": "2026-01-01T22:13:48+00:00"
         },
         {
             "name": "topthink/think-dumper",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-dumper.git",
-                "reference": "eba662a1843d5db68059050c530f7d43287289fc"
+                "reference": "2140ea8293d1a27637ada9b830078b8a1e0f44b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-dumper/zipball/eba662a1843d5db68059050c530f7d43287289fc",
-                "reference": "eba662a1843d5db68059050c530f7d43287289fc",
+                "url": "https://api.github.com/repos/top-think/think-dumper/zipball/2140ea8293d1a27637ada9b830078b8a1e0f44b3",
+                "reference": "2140ea8293d1a27637ada9b830078b8a1e0f44b3",
                 "shasum": ""
             },
             "require": {
@@ -996,9 +1127,9 @@
             "description": "Dumper extend for thinkphp",
             "support": {
                 "issues": "https://github.com/top-think/think-dumper/issues",
-                "source": "https://github.com/top-think/think-dumper/tree/v1.0.5"
+                "source": "https://github.com/top-think/think-dumper/tree/v1.0.6"
             },
-            "time": "2025-03-21T07:15:45+00:00"
+            "time": "2026-01-14T08:50:35+00:00"
         },
         {
             "name": "topthink/think-trace",
@@ -1054,12 +1185,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.0.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

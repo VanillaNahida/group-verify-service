@@ -1,15 +1,20 @@
 <?php
-// 极验V4配置
+//接口配置
 return [
-    'captcha_id' => env('GEETEST_CAPTCHA_ID', ''),
-    'captcha_key' => env('GEETEST_CAPTCHA_KEY', ''),
-    'api_server' => env('GEETEST_API_SERVER', 'https://gcaptcha4.geetest.com'),
+    //captcha配置
+    'Captcha' => '9cfd862579c55ccf5f92f673a75cd38b',
+    'CaptchaKey' => 'fd982638c8dac52157b2f8c6a26230de',
+    //api服务端配置
+    'ApiServer' => 'https://gcaptcha4.geetest.com',
     
     // 验证码有效期/s
-    'code_expire' => env('GEETEST_CODE_EXPIRE', 300),
-    
-    'storage_path' => env('GEETEST_STORAGE_PATH', 'runtime/Geetest/'),
-    
-    // Ticket生成盐值
-    'salt' => env('SALT', ''),
+    'notBefore' => 300,
+    //表名
+    'TableName'    => 'Validate',
+    'cache_prefix' => 'geetest:token:',
+    //缓存目录
+    'storage_path' => 'runtime/Geetest/',
+    //api密钥
+    'api_keys' => ['key1','key2',],
+    'salt' => 'qp8FhjzGHRUaPsBXSdu24CmD90EJ3l',
 ];

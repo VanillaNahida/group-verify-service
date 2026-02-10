@@ -1,11 +1,2 @@
 User-agent: *
-Disallow: /
-
-Disallow: /app/
-Disallow: /config/
-Disallow: /extend/
-Disallow: /runtime/
-Disallow: /database/
-Disallow: /route/
-Disallow: /vendor/
-Disallow: /public/runtime/
+Disallow:

@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "league/flysystem",
-            "version": "3.30.2",
-            "version_normalized": "3.30.2.0",
+            "version": "3.31.0",
+            "version_normalized": "3.31.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277"
+                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277",
-                "reference": "5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
+                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 "phpunit/phpunit": "^9.5.11|^10.0",
                 "sabre/dav": "^4.6.0"
             },
-            "time": "2025-11-10T17:13:11+00:00",
+            "time": "2026-01-23T15:38:47+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -82,23 +82,23 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.30.2"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.31.0"
             },
             "install-path": "../league/flysystem"
         },
         {
             "name": "league/flysystem-local",
-            "version": "3.30.2",
-            "version_normalized": "3.30.2.0",
+            "version": "3.31.0",
+            "version_normalized": "3.31.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-local.git",
-                "reference": "ab4f9d0d672f601b102936aa728801dd1a11968d"
+                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/ab4f9d0d672f601b102936aa728801dd1a11968d",
-                "reference": "ab4f9d0d672f601b102936aa728801dd1a11968d",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/2f669db18a4c20c755c2bb7d3a7b0b2340488079",
+                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079",
                 "shasum": ""
             },
             "require": {
@@ -107,7 +107,7 @@
                 "league/mime-type-detection": "^1.0.0",
                 "php": "^8.0.2"
             },
-            "time": "2025-11-10T11:23:37+00:00",
+            "time": "2026-01-23T15:30:45+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -134,7 +134,7 @@
                 "local"
             ],
             "support": {
-                "source": "https://github.com/thephpleague/flysystem-local/tree/3.30.2"
+                "source": "https://github.com/thephpleague/flysystem-local/tree/3.31.0"
             },
             "install-path": "../league/flysystem-local"
         },
@@ -255,27 +255,27 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.1",
-            "version_normalized": "1.1.0.0",
+            "version": "2.0",
+            "version_normalized": "2.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
-            "time": "2023-04-04T09:50:52+00:00",
+            "time": "2023-04-04T09:54:51+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -291,7 +291,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -305,7 +305,7 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/1.1"
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
             "install-path": "../psr/http-message"
         },
@@ -417,18 +417,266 @@
             "install-path": "../psr/simple-cache"
         },
         {
-            "name": "topthink/framework",
-            "version": "v8.1.3",
-            "version_normalized": "8.1.3.0",
+            "name": "symfony/deprecation-contracts",
+            "version": "v3.6.0",
+            "version_normalized": "3.6.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/top-think/framework.git",
-                "reference": "e4207e98b66f92d26097ed6efd535930cba90e8f"
+                "url": "https://github.com/symfony/deprecation-contracts.git",
+                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/e4207e98b66f92d26097ed6efd535930cba90e8f",
-                "reference": "e4207e98b66f92d26097ed6efd535930cba90e8f",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/63afe740e99a13ba87ec199bb07bbdee937a5b62",
+                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "time": "2024-09-25T14:21:43+00:00",
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
+                "branch-alias": {
+                    "dev-main": "3.6-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "function.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "A generic function and convention to trigger deprecation notices",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../symfony/deprecation-contracts"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.33.0",
+            "version_normalized": "1.33.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "php": ">=7.2"
+            },
+            "provide": {
+                "ext-mbstring": "*"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "time": "2024-12-23T08:48:59+00:00",
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../symfony/polyfill-mbstring"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "version": "v7.4.4",
+            "version_normalized": "7.4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "0e4769b46a0c3c62390d124635ce59f66874b282"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/0e4769b46a0c3c62390d124635ce59f66874b282",
+                "reference": "0e4769b46a0c3c62390d124635ce59f66874b282",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/console": "<6.4"
+            },
+            "require-dev": {
+                "symfony/console": "^6.4|^7.0|^8.0",
+                "symfony/http-kernel": "^6.4|^7.0|^8.0",
+                "symfony/process": "^6.4|^7.0|^8.0",
+                "symfony/uid": "^6.4|^7.0|^8.0",
+                "twig/twig": "^3.12"
+            },
+            "time": "2026-01-01T22:13:48+00:00",
+            "bin": [
+                "Resources/bin/var-dump-server"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "Resources/functions/dump.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Component\\VarDumper\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides mechanisms for walking through any arbitrary PHP variable",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "debug",
+                "dump"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/var-dumper/tree/v7.4.4"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../symfony/var-dumper"
+        },
+        {
+            "name": "topthink/framework",
+            "version": "v8.1.4",
+            "version_normalized": "8.1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/framework.git",
+                "reference": "8e7b2b2364047cbf71a38c4e397a9ca0d4ef2b01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/8e7b2b2364047cbf71a38c4e397a9ca0d4ef2b01",
+                "reference": "8e7b2b2364047cbf71a38c4e397a9ca0d4ef2b01",
                 "shasum": ""
             },
             "require": {
@@ -436,7 +684,7 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "php": ">=8.0.0",
-                "psr/http-message": "^1.0",
+                "psr/http-message": "^1.0|^2.0",
                 "psr/log": "^1.0|^2.0|^3.0",
                 "psr/simple-cache": "^1.0|^2.0|^3.0",
                 "topthink/think-container": "^3.0",
@@ -445,12 +693,13 @@
                 "topthink/think-validate": "^3.0"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.92",
                 "guzzlehttp/psr7": "^2.1.0",
                 "mikey179/vfsstream": "^1.6",
                 "mockery/mockery": "^1.2",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2025-07-14T03:48:44+00:00",
+            "time": "2026-01-15T02:45:10+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -482,7 +731,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v8.1.3"
+                "source": "https://github.com/top-think/framework/tree/v8.1.4"
             },
             "install-path": "../topthink/framework"
         },
@@ -534,6 +783,57 @@
                 "source": "https://github.com/top-think/think-container/tree/v3.0.2"
             },
             "install-path": "../topthink/think-container"
+        },
+        {
+            "name": "topthink/think-dumper",
+            "version": "v1.0.6",
+            "version_normalized": "1.0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-dumper.git",
+                "reference": "2140ea8293d1a27637ada9b830078b8a1e0f44b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-dumper/zipball/2140ea8293d1a27637ada9b830078b8a1e0f44b3",
+                "reference": "2140ea8293d1a27637ada9b830078b8a1e0f44b3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/var-dumper": ">=6.0",
+                "topthink/framework": "^6.0|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.4"
+            },
+            "time": "2026-01-14T08:50:35+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "think\\dumper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "Dumper extend for thinkphp",
+            "support": {
+                "issues": "https://github.com/top-think/think-dumper/issues",
+                "source": "https://github.com/top-think/think-dumper/tree/v1.0.6"
+            },
+            "install-path": "../topthink/think-dumper"
         },
         {
             "name": "topthink/think-filesystem",
@@ -635,6 +935,57 @@
             "install-path": "../topthink/think-helper"
         },
         {
+            "name": "topthink/think-multi-app",
+            "version": "v1.1.1",
+            "version_normalized": "1.1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-multi-app.git",
+                "reference": "f93c604d5cfac2b613756273224ee2f88e457b88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-multi-app/zipball/f93c604d5cfac2b613756273224ee2f88e457b88",
+                "reference": "f93c604d5cfac2b613756273224ee2f88e457b88",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "topthink/framework": "^6.0|^8.0"
+            },
+            "time": "2024-11-25T08:52:44+00:00",
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "think\\app\\Service"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\app\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "thinkphp multi app support",
+            "support": {
+                "issues": "https://github.com/top-think/think-multi-app/issues",
+                "source": "https://github.com/top-think/think-multi-app/tree/v1.1.1"
+            },
+            "install-path": "../topthink/think-multi-app"
+        },
+        {
             "name": "topthink/think-orm",
             "version": "v4.0.51",
             "version_normalized": "4.0.51.0",
@@ -698,6 +1049,104 @@
             "install-path": "../topthink/think-orm"
         },
         {
+            "name": "topthink/think-template",
+            "version": "v3.0.2",
+            "version_normalized": "3.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-template.git",
+                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-template/zipball/0b88bd449f0f7626dd75b05f557c8bc208c08b0c",
+                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0",
+                "psr/simple-cache": ">=1.0"
+            },
+            "time": "2024-10-16T03:41:06+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "the php template engine",
+            "support": {
+                "issues": "https://github.com/top-think/think-template/issues",
+                "source": "https://github.com/top-think/think-template/tree/v3.0.2"
+            },
+            "install-path": "../topthink/think-template"
+        },
+        {
+            "name": "topthink/think-trace",
+            "version": "v2.0",
+            "version_normalized": "2.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-trace.git",
+                "reference": "4ba6da2945b37931d61900a6e55dc02b05e5a63f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-trace/zipball/4ba6da2945b37931d61900a6e55dc02b05e5a63f",
+                "reference": "4ba6da2945b37931d61900a6e55dc02b05e5a63f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0",
+                "topthink/framework": "^8.1"
+            },
+            "time": "2025-06-12T09:18:19+00:00",
+            "type": "library",
+            "extra": {
+                "think": {
+                    "config": {
+                        "trace": "src/config.php"
+                    },
+                    "services": [
+                        "think\\trace\\Service"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\trace\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "thinkphp debug trace",
+            "support": {
+                "issues": "https://github.com/top-think/think-trace/issues",
+                "source": "https://github.com/top-think/think-trace/tree/v2.0"
+            },
+            "install-path": "../topthink/think-trace"
+        },
+        {
             "name": "topthink/think-validate",
             "version": "v3.0.7",
             "version_normalized": "3.0.7.0",
@@ -743,8 +1192,58 @@
                 "source": "https://github.com/top-think/think-validate/tree/v3.0.7"
             },
             "install-path": "../topthink/think-validate"
+        },
+        {
+            "name": "topthink/think-view",
+            "version": "v2.0.5",
+            "version_normalized": "2.0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-view.git",
+                "reference": "b42009b98199b5a3833d3d6fd18c8a55aa511fad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-view/zipball/b42009b98199b5a3833d3d6fd18c8a55aa511fad",
+                "reference": "b42009b98199b5a3833d3d6fd18c8a55aa511fad",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0",
+                "topthink/think-template": "^3.0"
+            },
+            "time": "2025-03-19T07:04:19+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "think\\view\\driver\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "thinkphp template driver",
+            "support": {
+                "issues": "https://github.com/top-think/think-view/issues",
+                "source": "https://github.com/top-think/think-view/tree/v2.0.5"
+            },
+            "install-path": "../topthink/think-view"
         }
     ],
-    "dev": false,
-    "dev-package-names": []
+    "dev": true,
+    "dev-package-names": [
+        "symfony/deprecation-contracts",
+        "symfony/polyfill-mbstring",
+        "symfony/var-dumper",
+        "topthink/think-dumper",
+        "topthink/think-trace"
+    ]
 }

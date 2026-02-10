@@ -5,6 +5,5 @@
 return [
     // 指令定义
     'commands' => [
-        'db:init' => 'app\command\InitDatabase',
     ],
 ];

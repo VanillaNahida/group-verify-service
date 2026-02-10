@@ -6,13 +6,3 @@
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
 </IfModule>
-
-<FilesMatch "\.(php|php5|phtml|inc)$">
-  Order Allow,Deny
-  Deny from all
-</FilesMatch>
-
-<FilesMatch "^index\.php$">
-  Order Allow,Deny
-  Allow from all
-</FilesMatch>

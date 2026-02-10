@@ -6,8 +6,14 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'think\\' => array($vendorDir . '/topthink/think-filesystem/src', $vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-validate/src', $vendorDir . '/topthink/think-container/src', $vendorDir . '/topthink/think-helper/src'),
+    'think\\view\\driver\\' => array($vendorDir . '/topthink/think-view/src'),
+    'think\\trace\\' => array($vendorDir . '/topthink/think-trace/src'),
+    'think\\dumper\\' => array($vendorDir . '/topthink/think-dumper/src'),
+    'think\\app\\' => array($vendorDir . '/topthink/think-multi-app/src'),
+    'think\\' => array($vendorDir . '/topthink/think-filesystem/src', $vendorDir . '/topthink/think-template/src', $vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-validate/src', $vendorDir . '/topthink/think-container/src', $vendorDir . '/topthink/think-helper/src'),
     'app\\' => array($baseDir . '/app'),
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),

@@ -9,45 +9,16 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\facade\Route;
-
-Route::get('think', function () {
-    return 'hello,ThinkPHP8!';
+use think\facade\App;
+Route::miss(function() {
+    return '<link rel="icon" href="favicon.ico">
+<style type="text/css">
+	*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px;} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }
+</style>
+<div style="padding: 24px 48px;">
+	<h1>:) </h1>
+	<p> ThinkPHP V' . App::version() . '<br/><span style="font-size:30px;">18载初心不改 - 你值得信赖的PHP框架</span></p><span style="font-size:25px;"></span>
+</div>
+<think id="ee9b1aa918103c4fc"></think>
+<div class="copyright"><span><a href="https://beian.miit.gov.cn/">陕ICP备2025072193号-3</a></span></div>';
 });
-
-Route::get('hello/:name', 'index/hello');
-Route::any('setup', 'index/setup');
-
-//验证路由
-Route::group('verify', function () {
-    // 需要API密钥认证的路由
-    Route::post('create', 'VerifyController/create')->middleware(app\middleware\ApiAuth::class);      // Bot调用：生成验证链接
-    Route::post('check', 'VerifyController/check')->middleware(app\middleware\ApiAuth::class);       // Bot调用：验证验证码
-    Route::get('clean', 'VerifyController/clean')->middleware(app\middleware\ApiAuth::class);        // 定时任务：清理过期
-    Route::post('reset-key', 'VerifyController/resetKey')->middleware(app\middleware\ApiAuth::class); // 自助：重置当前 API Key
-    
-    // 不需要API密钥认证的路由
-    Route::post('callback', 'VerifyController/callback'); // 前端提交：极验验证回调
-    Route::get('status/:ticket', 'VerifyController/status');
-});
-
-// 短链接路由
-Route::get('v/:ticket', 'VerifyController/page');
-
-Route::group('admin', function () {
-    Route::post('auth/login', 'AdminAuthController/login');
-
-    Route::get('dashboard', 'AdminSettingsController/dashboard')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-    Route::get('api-call-logs', 'AdminSettingsController/apiCallLogs')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-
-    Route::get('settings', 'AdminSettingsController/get')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-    Route::put('settings', 'AdminSettingsController/update')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-
-    Route::get('api-keys', 'AdminApiKeysController/list')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-    Route::post('api-keys', 'AdminApiKeysController/create')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-    Route::post('api-keys/:id/reset', 'AdminApiKeysController/reset')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-    Route::delete('api-keys/:id', 'AdminApiKeysController/delete')->middleware(app\middleware\AdminJwtAuth::class)->completeMatch(true);
-})->middleware(app\middleware\AdminCors::class)->completeMatch(true);
-
-Route::get('admin', 'VerifyController/adminPage')->completeMatch(true)->removeSlash(true);
-Route::get('admin/login', 'VerifyController/adminPage')->completeMatch(true)->removeSlash(true);
-

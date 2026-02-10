@@ -1,29 +1,25 @@
 <?php
 // 应用公共文件
-use think\facade\Cache;
-use think\facade\Db;
-
+use think\facade\Config;
 /**
-* @title CURL
-* @desc 公共curl
-* @author VanillaNahida
-* @version v1
-* @param string url - url地址 require
-* @param array data [] 传递的参数
-* @param string timeout 30 超时时间
-* @param string request POST 请求类型
-* @param array header [] 头部参数
-* @param  bool curlFile false 是否curl上传文件
-* @return int http_code - http状态码
-* @return string error - 错误信息
-* @return string content - 内容
-*/
-function curl($url, $data = [], $timeout = 30, $request = 'POST', $header = [], $curlFile = false)
-{
+ * @title CURL
+ * @desc 公共curl
+ * @author silveridc
+ * @version v1
+ * @param string url - url地址 require
+ * @param array data[] - 请求参数
+ * @param string timeout - 超时时间
+ * @param string request - 请求方式 GET,POST,PUT,DELETE
+ * @param array header[] - 请求头
+ * @param boolean curlFile - 是否使用curl上传文件
+ * @return string error - 错误信息
+ * @return string content - 返回内容
+ */
+function curl($url, $data = [], $timeout = 30, $request = 'GET', $header = [], $curlFile = false) {
     $curl = curl_init();
     $request = strtoupper($request);
 
-    if($request == 'GET'){
+    if($request == 'GET') {
         $s = '';
         if(!empty($data)){
             foreach($data as $k=>$v){
@@ -46,13 +42,22 @@ function curl($url, $data = [], $timeout = 30, $request = 'POST', $header = [], 
     }else{
         curl_setopt($curl, CURLOPT_URL, $url);
     }
+    /**
+     * curl设置
+     */
     curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
-    curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36');
+    //ua
+    $curl_ua = Config::get('app.curl.user_agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36');
+    curl_setopt($curl, CURLOPT_USERAGENT, $curl_ua);
+    //跟随重定向
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($curl, CURLOPT_HEADER, 0);
     curl_setopt($curl, CURLOPT_REFERER, request() ->host());
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    //ssl验证
+    $sslVerify = Config::get('app.curl.ssl_verify',false);
+    $sslVerifyHost = Config::get('app.curl.ssl_verify_host',false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $sslVerify);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, $sslVerifyHost);
     if($request == 'GET'){
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPGET, 1);
@@ -81,174 +86,155 @@ function curl($url, $data = [], $timeout = 30, $request = 'POST', $header = [], 
     $content = curl_exec($curl);
     $error = curl_error($curl);
     $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-	return ['http_code'=>$http_code, 'error'=>$error , 'content' => $content];
+	curl_close($curl);
+    $result = ['http_code'=>$http_code, 'error'=>$error , 'content' => $content];
+	return $result;
 }
 
-function ensure_settings_table(): void
+/**
+ * @title 获取客户端IP地址
+ * @desc 获取客户端IP地址
+ * @author silveridc
+ * @version v1
+ * @param int type 返回类型 0 返回IP地址 1 返回IPV4地址数字
+ * @param bool adv  是否进行高级模式获取
+ * @return string
+ */
+function get_client_ip($type = 0, $adv = true)
 {
-    static $ready = false;
-    if ($ready) {
-        return;
-    }
+    static $ipWhiteList = null;
+    // 获取 X-Forwarded-For 头部
+    $ip = getenv('HTTP_X_FORWARDED_FOR');
 
-    try {
-        Db::name('settings')->where('id', '>', 0)->limit(1)->value('id');
-        $ready = true;
-        return;
-    } catch (\Throwable) {
-    }
-
-    try {
-        try {
-            Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
-                `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-                `name` VARCHAR(128) NOT NULL UNIQUE,
-                `value` TEXT NOT NULL,
-                `created_at` INTEGER UNSIGNED NOT NULL,
-                `updated_at` INTEGER UNSIGNED NOT NULL
-            )');
-            Db::execute('CREATE INDEX IF NOT EXISTS `idx_settings_name` ON `settings` (`name`)');
-        } catch (\Throwable) {
-            Db::execute('CREATE TABLE IF NOT EXISTS `settings` (
-                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                `name` VARCHAR(128) NOT NULL UNIQUE,
-                `value` TEXT NOT NULL,
-                `created_at` INT UNSIGNED NOT NULL,
-                `updated_at` INT UNSIGNED NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+    if ($ip) {
+        if ($ipWhiteList === null) {
+            $list = explode("\n", Config::get('app.ip_white_list'));
+            $ipWhiteList = array_filter(array_map('trim', $list));
         }
-    } catch (\Throwable) {
-    }
-
-    $ready = true;
-}
-
-function ensure_api_keys_table(): void
-{
-    static $ready = false;
-    if ($ready) {
-        return;
-    }
-
-    try {
-        Db::name('api_keys')->where('id', '>', 0)->limit(1)->value('id');
-        $ready = true;
-        return;
-    } catch (\Throwable) {
-    }
-
-    try {
-        try {
-            Db::execute('CREATE TABLE IF NOT EXISTS `api_keys` (
-                `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-                `value` TEXT NOT NULL,
-                `created_at` INTEGER UNSIGNED NOT NULL,
-                `updated_at` INTEGER UNSIGNED NOT NULL
-            )');
-            Db::execute('CREATE UNIQUE INDEX IF NOT EXISTS `uniq_api_keys_value` ON `api_keys` (`value`)');
-        } catch (\Throwable) {
-            Db::execute('CREATE TABLE IF NOT EXISTS `api_keys` (
-                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                `value` VARCHAR(255) NOT NULL,
-                `created_at` INT UNSIGNED NOT NULL,
-                `updated_at` INT UNSIGNED NOT NULL,
-                UNIQUE KEY `uniq_api_keys_value` (`value`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+        // 将 X-Forwarded-For 中的 IP 地址分割成数组并去掉多余的空格
+        $ipList = array_map('trim', explode(',', $ip));
+        // 当只有客户端ip时
+        if (count($ipList)==1){
+            // 代理ip是否在白名单
+            if (ip_in_whitelist(request()->ip($type, $adv), $ipWhiteList)){
+                return $ipList[0]; // 返回真实ip
+            }
+        }else{
+            // 遍历 X-Forwarded-For 中的所有 IP 地址（从客户端到代理）
+            foreach ($ipList as $index => $proxyIp) {
+                // 从第二个 IP 地址开始，检查代理服务器 IP 是否在白名单中
+                if ($index > 0 && ip_in_whitelist($proxyIp, $ipWhiteList)) {
+                    // 如果代理 IP 在白名单中，则返回第一个 IP（客户端的真实 IP）
+                    return $ipList[0];  // 真实客户端 IP 通常是第一个
+                }
+            }
         }
-    } catch (\Throwable) {
+
     }
 
-    $ready = true;
+    // 如果没有找到信任的代理或没有 X-Forwarded-For 头部，则使用默认方法获取客户端 IP
+    return request()->ip($type, $adv);
 }
 
-function ensure_api_call_logs_table(): void
+/**
+ * @title 检查IP是否在白名单中
+ * @desc 支持单个IP、CIDR网段、IP范围三种格式
+ * @param string $ip 要检查的IP地址
+ * @param array $whitelist 白名单数组
+ * @return bool
+ */
+function ip_in_whitelist($ip, $whitelist)
 {
-    static $ready = false;
-    if ($ready) {
-        return;
+    // 验证IP格式
+    if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+        return false;
     }
-
-    try {
-        Db::name('api_call_logs')->where('id', '>', 0)->limit(1)->value('id');
-        $ready = true;
-        return;
-    } catch (\Throwable) {
+    
+    $ipLong = ip2long($ip);
+    if ($ipLong === false) {
+        return false;
     }
-
-    try {
-        try {
-            Db::execute('CREATE TABLE IF NOT EXISTS `api_call_logs` (
-                `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-                `api_key_id` INTEGER DEFAULT NULL,
-                `endpoint` TEXT NOT NULL,
-                `method` VARCHAR(8) NOT NULL,
-                `status_code` INTEGER UNSIGNED NOT NULL,
-                `group_id` VARCHAR(64) DEFAULT NULL,
-                `user_id` VARCHAR(64) DEFAULT NULL,
-                `ticket` VARCHAR(64) DEFAULT NULL,
-                `code` VARCHAR(10) DEFAULT NULL,
-                `ip` VARCHAR(45) DEFAULT NULL,
-                `user_agent` VARCHAR(500) DEFAULT NULL,
-                `duration_ms` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-                `created_at` INTEGER UNSIGNED NOT NULL
-            )');
-            Db::execute('CREATE INDEX IF NOT EXISTS `idx_api_call_logs_created_at` ON `api_call_logs` (`created_at`)');
-            Db::execute('CREATE INDEX IF NOT EXISTS `idx_api_call_logs_api_key` ON `api_call_logs` (`api_key_id`, `created_at`)');
-            Db::execute('CREATE INDEX IF NOT EXISTS `idx_api_call_logs_endpoint` ON `api_call_logs` (`created_at`, `endpoint`)');
-            Db::execute('CREATE INDEX IF NOT EXISTS `idx_api_call_logs_group` ON `api_call_logs` (`group_id`, `created_at`)');
-        } catch (\Throwable) {
-            Db::execute('CREATE TABLE IF NOT EXISTS `api_call_logs` (
-                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                `api_key_id` INT UNSIGNED NULL,
-                `endpoint` VARCHAR(255) NOT NULL,
-                `method` VARCHAR(8) NOT NULL,
-                `status_code` INT UNSIGNED NOT NULL,
-                `group_id` VARCHAR(64) NULL,
-                `user_id` VARCHAR(64) NULL,
-                `ticket` VARCHAR(64) NULL,
-                `code` VARCHAR(10) NULL,
-                `ip` VARCHAR(45) NULL,
-                `user_agent` VARCHAR(500) NULL,
-                `duration_ms` INT UNSIGNED NOT NULL DEFAULT 0,
-                `created_at` INT UNSIGNED NOT NULL,
-                KEY `idx_api_call_logs_created_at` (`created_at`),
-                KEY `idx_api_call_logs_api_key` (`api_key_id`, `created_at`),
-                KEY `idx_api_call_logs_endpoint` (`created_at`, `endpoint`),
-                KEY `idx_api_call_logs_group` (`group_id`, `created_at`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+    
+    foreach ($whitelist as $item) {
+        if (empty($item)) {
+            continue;
         }
-    } catch (\Throwable) {
+        
+        // CIDR格式: 192.168.3.0/24
+        if (strpos($item, '/') !== false) {
+            if (ip_in_cidr($ip, $item)) {
+                return true;
+            }
+        }
+        // IP范围格式: 192.168.3.1-192.168.3.5
+        elseif (strpos($item, '-') !== false) {
+            if (ip_in_range($ip, $item)) {
+                return true;
+            }
+        }
+        // 单个IP
+        else {
+            if ($ip === $item) {
+                return true;
+            }
+        }
     }
-
-    $ready = true;
+    
+    return false;
 }
 
-function rate_limit_hit(string $key, int $limit, int $windowSeconds): int
+/**
+ * @title 检查IP是否在CIDR网段中
+ * @param string $ip 要检查的IP地址
+ * @param string $cidr CIDR格式的网段 如: 192.168.3.0/24
+ * @return bool
+ */
+function ip_in_cidr($ip, $cidr)
 {
-    $k = trim($key);
-    if ($k === '' || $limit <= 0 || $windowSeconds <= 0) {
-        return 0;
+    list($subnet, $mask) = explode('/', $cidr);
+    
+    $ipLong = ip2long($ip);
+    $subnetLong = ip2long($subnet);
+    $maskLong = -1 << (32 - (int)$mask);
+    
+    if ($ipLong === false || $subnetLong === false) {
+        return false;
     }
+    
+    return ($ipLong & $maskLong) === ($subnetLong & $maskLong);
+}
 
-    $now = time();
-    $data = Cache::get($k, null);
-    $count = 0;
-    $expireAt = 0;
-    if (is_array($data)) {
-        $count = (int)($data['count'] ?? 0);
-        $expireAt = (int)($data['expire_at'] ?? 0);
+/**
+ * @title 检查IP是否在IP范围中
+ * @param string $ip 要检查的IP地址
+ * @param string $range IP范围 如: 192.168.3.1-192.168.3.5
+ * @return bool
+ */
+function ip_in_range($ip, $range)
+{
+    list($startIp, $endIp) = array_map('trim', explode('-', $range));
+    
+    $ipLong = ip2long($ip);
+    $startLong = ip2long($startIp);
+    $endLong = ip2long($endIp);
+    
+    if ($ipLong === false || $startLong === false || $endLong === false) {
+        return false;
     }
-
-    if ($expireAt <= $now) {
-        $expireAt = $now + $windowSeconds;
-        Cache::set($k, ['count' => 1, 'expire_at' => $expireAt], $windowSeconds);
-        return 0;
-    }
-
-    if ($count >= $limit) {
-        return max(1, $expireAt - $now);
-    }
-
-    Cache::set($k, ['count' => $count + 1, 'expire_at' => $expireAt], $expireAt - $now);
-    return 0;
+    
+    return $ipLong >= $startLong && $ipLong <= $endLong;
+}
+/**
+ * @title 脱敏显示密钥
+ * @desc 脱敏显示密钥
+ * @author silveridc
+ * @version v1
+ * @param string $v 密钥值
+ * @return string 脱敏后的密钥
+ */
+function maskSecret($v)
+{
+    $v = trim((string)$v);
+    if (mb_strlen($v) <= 8) return '******';
+    return mb_substr($v, 0, 4) . '...' . mb_substr($v, -4);
 }
