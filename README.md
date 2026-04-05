@@ -47,7 +47,7 @@
 1. 环境要求
 
 - PHP 8.0+
-- PHP 扩展：fileinfo、sqlite3、pdo_sqlite
+- PHP 扩展：fileinfo、sqlite3、pdo_sqlite,mbstring
 
 2. 上传并设置站点目录
 
