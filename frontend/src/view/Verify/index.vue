@@ -1,7 +1,8 @@
 <template>
   <div class="verify-container">
     <video class="background-video" autoplay loop muted playsinline>
-      <source src="/back.webm" type="video/webm">
+      <source src="https://cdn.xcnahida.cn/api/random-video.php" type="video/webm">
+      <!-- <source src="/back.webm" type="video/webm"> -->
     </video>
     <!-- 这个虽然好看但是会造成卡顿，慎用。by：FantasyNetwork（github:Nyanyagulugulu） -->
     <!-- <div class="background-overlay"></div> -->
@@ -301,16 +302,15 @@ onMounted(() => {
   z-index: 0;
 }
 
-.background-overlay {
+.background-video::after {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 1;
+  background: radial-gradient(circle at center, transparent 0%, rgba(88, 28, 135, 0.3) 100%);
+  pointer-events: none;
 }
 
 .glass-card {
@@ -336,27 +336,41 @@ onMounted(() => {
   content: '';
   position: absolute;
   top: 0;
-  left: -50%;
-  width: 200%;
+  left: -100%;
+  width: 100%;
   height: 100%;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.2),
     transparent
   );
-  transform: skewX(-25deg);
-  animation: cardShine 4s ease-in-out infinite;
+  animation: cardShine 5s ease-in-out infinite;
   pointer-events: none;
 }
 
 @keyframes cardShine {
   0% {
-    transform: translateX(-100%) skewX(-25deg);
+    left: -100%;
+  }
+  50% {
+    left: 100%;
   }
   100% {
-    transform: translateX(200%) skewX(-25deg);
+    left: 100%;
   }
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 @keyframes cardFadeIn {
@@ -371,8 +385,10 @@ onMounted(() => {
 }
 
 .card-header {
-  padding: 22px 32px 18px;
+  padding: 24px 36px 20px;
   background: linear-gradient(135deg, #c084fc 0%, #e879f9 50%, #f472b6 100%);
+  background-size: 200% 200%;
+  animation: headerGradient 8s ease infinite;
   position: relative;
   overflow: hidden;
 }
@@ -386,23 +402,59 @@ onMounted(() => {
   bottom: 0;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.25) 0%,
     transparent 100%
   );
   pointer-events: none;
 }
 
+.card-header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+  animation: headerGlow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes headerGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes headerGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+}
+
 .card-title {
   margin: 0;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
   color: #ffffff;
   text-align: center;
   text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.15),
-    0 0 20px rgba(255, 255, 255, 0.3);
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 30px rgba(255, 255, 255, 0.4);
   position: relative;
   z-index: 1;
+  letter-spacing: 1px;
 }
 
 .error-state,
@@ -428,26 +480,76 @@ onMounted(() => {
 }
 
 .error-icon {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 18px;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 20px;
   border-radius: 50%;
   background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
   border: 3px solid #ef4444;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 32px;
   color: #ef4444;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+  animation: errorShake 0.5s ease-in-out;
+  position: relative;
+}
+
+.error-icon::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, transparent 70%);
+  animation: errorRing 2s ease-in-out infinite;
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes errorRing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
 }
 
 .error-title {
   margin: 0 0 12px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: #1f2937;
   text-align: center;
+  position: relative;
+}
+
+.error-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  border-radius: 2px;
 }
 
 .error-message {
@@ -456,22 +558,36 @@ onMounted(() => {
   color: #6b7280;
   text-align: center;
   line-height: 1.7;
+  padding-top: 16px;
 }
 
 .success-icon {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 18px;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
   border-radius: 50%;
   background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
   border: 3px solid #22c55e;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  font-size: 40px;
   color: #22c55e;
   box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
   animation: successPulse 2s ease-in-out infinite;
+  position: relative;
+}
+
+.success-icon::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, transparent 70%);
+  animation: successRing 2s ease-in-out infinite;
 }
 
 @keyframes successPulse {
@@ -480,25 +596,50 @@ onMounted(() => {
     box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
   }
   50% {
-    transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.25);
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+  }
+}
+
+@keyframes successRing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0;
   }
 }
 
 .success-title {
-  margin: 0 0 8px;
-  font-size: 22px;
+  margin: 0 0 10px;
+  font-size: 24px;
   font-weight: 700;
   color: #1f2937;
   text-align: center;
+  position: relative;
+}
+
+.success-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  border-radius: 2px;
 }
 
 .success-subtitle {
-  margin: 0 0 20px;
+  margin: 0 0 24px;
   font-size: 15px;
   color: #6b7280;
   text-align: center;
   line-height: 1.7;
+  padding-top: 16px;
 }
 
 .code-display {
@@ -579,13 +720,27 @@ onMounted(() => {
 }
 
 .expire-info {
-  margin: 0 0 20px;
+  margin: 0 0 24px;
   font-size: 14px;
   color: #6b7280;
   text-align: center;
-  background: #f3f4f6;
-  padding: 10px 16px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 2px solid #fcd34d;
+  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.expire-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
 }
 
 .steps-box {
@@ -644,13 +799,38 @@ onMounted(() => {
 
 .captcha-container {
   min-height: 220px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fafafa;
-  border-radius: 12px;
-  border: 2px dashed #e5e7eb;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border-radius: 14px;
+  border: 2px dashed #e9d5ff;
+  position: relative;
+  overflow: hidden;
+}
+
+.captcha-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.08) 0%, transparent 60%);
+  animation: captchaPulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes captchaPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
 }
 
 .button-group {
@@ -678,6 +858,7 @@ onMounted(() => {
 
 .btn-primary {
   background: linear-gradient(135deg, #c084fc 0%, #e879f9 50%, #f472b6 100%);
+  background-size: 200% 200%;
   color: white;
   box-shadow: 
     0 4px 12px rgba(192, 132, 252, 0.4),
@@ -685,6 +866,27 @@ onMounted(() => {
   border: 1px solid rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
+  animation: gradientMove 3s ease infinite;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .btn-primary::after {
@@ -705,7 +907,7 @@ onMounted(() => {
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 
-    0 6px 20px rgba(192, 132, 252, 0.5),
+    0 8px 24px rgba(192, 132, 252, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
@@ -721,6 +923,7 @@ onMounted(() => {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  animation: none;
 }
 
 .btn-secondary {
@@ -728,13 +931,35 @@ onMounted(() => {
   color: #7c3aed;
   border: 2px solid #e9d5ff;
   box-shadow: 0 2px 8px rgba(192, 132, 252, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(192, 132, 252, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-secondary:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .btn-secondary:hover:not(:disabled) {
   background: linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%);
   transform: translateY(-2px);
   border-color: #d8b4fe;
-  box-shadow: 0 4px 12px rgba(192, 132, 252, 0.25);
+  box-shadow: 0 4px 16px rgba(192, 132, 252, 0.3);
 }
 
 .btn-secondary:active:not(:disabled) {
@@ -765,7 +990,7 @@ onMounted(() => {
   }
   
   .card-title {
-    font-size: 20px;
+    font-size: 22px;
   }
   
   .error-state,
@@ -775,7 +1000,7 @@ onMounted(() => {
   }
   
   .code-display {
-    font-size: 32px;
+    font-size: 36px;
     letter-spacing: 5px;
     padding: 18px 24px;
   }
@@ -783,6 +1008,14 @@ onMounted(() => {
   .btn {
     padding: 14px 20px;
     font-size: 15px;
+  }
+  
+  .footer {
+    padding: 24px 20px;
+  }
+  
+  .footer-text {
+    font-size: 13px;
   }
 }
 
@@ -803,22 +1036,31 @@ onMounted(() => {
   }
   
   .code-display {
-    font-size: 28px;
+    font-size: 30px;
     letter-spacing: 4px;
     padding: 16px 20px;
   }
   
   .success-icon,
   .error-icon {
-    width: 52px;
-    height: 52px;
-    font-size: 26px;
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
   }
   
   .error-state,
   .success-state,
   .verify-state {
     padding: 20px;
+  }
+  
+  .footer {
+    padding: 20px 16px;
+  }
+  
+  .footer-text {
+    font-size: 12px;
+    margin: 4px 0;
   }
 }
 
@@ -827,11 +1069,11 @@ onMounted(() => {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 24px;
+  padding: 28px 24px;
   text-align: center;
   z-index: 5;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0%, rgba(88, 28, 135, 0.3) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(88, 28, 135, 0.4) 100%);
 }
 
 .footer::before {
@@ -840,30 +1082,76 @@ onMounted(() => {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 60%;
+  width: 70%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
 }
 
 .footer-text {
-  margin: 0;
+  margin: 6px 0;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   position: relative;
+  transition: all 0.3s ease;
+  z-index: 0;
+  pointer-events: auto;
 }
 
-.footer-text::before {
+.footer-text a {
+  color: #f472b6;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  pointer-events: auto;
+}
+
+.footer-text a::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #f472b6, #e879f9);
+  transition: width 0.3s ease;
+}
+
+.footer-text a:hover {
+  color: #f0abfc;
+  text-shadow: 0 0 20px rgba(244, 114, 182, 0.6);
+}
+
+.footer-text a:hover::before {
+  width: 100%;
+}
+
+.footer-text:first-child::before {
   content: '✦';
   margin-right: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
+  animation: starPulse 2s ease-in-out infinite;
 }
 
-.footer-text::after {
+.footer-text:last-child::after {
   content: '✦';
   margin-left: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
+  animation: starPulse 2s ease-in-out infinite 1s;
+}
+
+@keyframes starPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 </style>
