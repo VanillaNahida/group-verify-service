@@ -3,7 +3,8 @@
     <video class="background-video" autoplay loop muted playsinline>
       <source src="/back.webm" type="video/webm">
     </video>
-    <div class="background-overlay"></div>
+    <!-- 这个虽然好看但是会造成卡顿，慎用。by：FantasyNetwork（github:Nyanyagulugulu） -->
+    <!-- <div class="background-overlay"></div> -->
     
     <div class="glass-card">
       <div class="card-header">
@@ -70,7 +71,8 @@
     </div>
     
     <div class="footer">
-      <p class="footer-text">前端美化：FantasyNetwork</p>
+      <p class="footer-text">前端美化：<a href="https://github.com/FantasyNetworkCN" target="_blank">FantasyNetwork</a></p>
+      <p class="footer-text">友联：<a href="https://music.cnmsb.xin/" target="_blank">Neko云音乐</a></p>
     </div>
   </div>
 </template>
@@ -303,11 +305,12 @@ onMounted(() => {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(88, 28, 135, 0.4);
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1;
-  pointer-events: none;
 }
 
 .glass-card {
@@ -405,8 +408,23 @@ onMounted(() => {
 .error-state,
 .success-state,
 .verify-state {
-  padding: 28px;
+  padding: 32px;
   background: rgba(255, 255, 255, 0.98);
+  position: relative;
+}
+
+.error-state::before,
+.success-state::before,
+.verify-state::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #c084fc, #e879f9, #f472b6);
+  background-size: 200% 100%;
+  animation: gradientMove 3s linear infinite;
 }
 
 .error-icon {
@@ -485,13 +503,14 @@ onMounted(() => {
 
 .code-display {
   background: linear-gradient(135deg, #fef9c3 0%, #fde047 50%, #facc15 100%);
-  border-radius: 16px;
-  padding: 24px 32px;
-  margin-bottom: 20px;
+  border-radius: 18px;
+  padding: 28px 36px;
+  margin-bottom: 24px;
   border: 3px solid #eab308;
   box-shadow: 
-    0 6px 20px rgba(234, 179, 8, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.6);
+    0 8px 32px rgba(234, 179, 8, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 4px rgba(234, 179, 8, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -499,14 +518,37 @@ onMounted(() => {
 .code-display::before {
   content: '';
   position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  animation: codePulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes codePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.code-display::after {
+  content: '';
+  position: absolute;
   top: 0;
   left: -100%;
-  width: 200%;
+  width: 100%;
   height: 100%;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.6),
     transparent
   );
   animation: codeShine 3s ease-in-out infinite;
@@ -518,20 +560,20 @@ onMounted(() => {
     left: -100%;
   }
   100% {
-    left: 100%;
+    left: 200%;
   }
 }
 
 .code-display {
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 900;
-  letter-spacing: 8px;
+  letter-spacing: 10px;
   text-align: center;
   color: #854d0e;
   font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
   text-shadow: 
     0 2px 4px rgba(255, 255, 255, 0.9),
-    0 0 20px rgba(234, 179, 8, 0.2);
+    0 0 30px rgba(234, 179, 8, 0.3);
   position: relative;
   z-index: 1;
 }
@@ -548,18 +590,19 @@ onMounted(() => {
 
 .steps-box {
   background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 50%, #f5d0fe 100%);
-  border-radius: 14px;
-  padding: 20px 24px;
-  margin-bottom: 20px;
+  border-radius: 16px;
+  padding: 22px 28px;
+  margin-bottom: 24px;
   border: 2px solid #e9d5ff;
   color: #7c3aed;
   font-size: 15px;
-  line-height: 1.7;
+  line-height: 1.8;
   text-align: center;
   font-weight: 600;
   box-shadow: 
-    0 4px 12px rgba(192, 132, 252, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    0 6px 20px rgba(192, 132, 252, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(192, 132, 252, 0.05);
   position: relative;
   overflow: hidden;
 }
@@ -570,10 +613,33 @@ onMounted(() => {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: linear-gradient(90deg, #c084fc, #e879f9, #f472b6);
   background-size: 200% 100%;
   animation: gradientMove 3s linear infinite;
+}
+
+.steps-box::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.1) 0%, transparent 60%);
+  animation: stepsPulse 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes stepsPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
 }
 
 .captcha-container {
@@ -761,17 +827,43 @@ onMounted(() => {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20px;
+  padding: 24px;
   text-align: center;
   z-index: 5;
   pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(88, 28, 135, 0.3) 100%);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
 .footer-text {
   margin: 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.footer-text::before {
+  content: '✦';
+  margin-right: 8px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-text::after {
+  content: '✦';
+  margin-left: 8px;
+  color: rgba(255, 255, 255, 0.7);
 }
 </style>
