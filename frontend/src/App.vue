@@ -64,10 +64,9 @@ onMounted(() => {
 
 <style scoped>
 .page {
+  width: 100%;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg-1);
+  margin: 0;
+  padding: 0;
 }
 </style>
