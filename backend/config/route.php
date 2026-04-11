@@ -9,11 +9,9 @@ return [
     // 是否开启路由延迟解析
     'url_lazy_route'        => false,
     // 是否强制使用路由
-    'url_route_must'        => false,
+    'url_route_must'        => true,
     // 是否区分大小写
     'url_case_sensitive'    => false,
-    // 自动扫描子目录分组
-    'route_auto_group'      => false,
     // 合并路由规则
     'route_rule_merge'      => false,
     // 路由是否完全匹配
@@ -49,7 +47,9 @@ return [
     // 全局请求缓存排除规则
     'request_cache_except'  => [],
     // 请求缓存的Tag
-    'request_cache_tag'     => '',
-    // API版本header变量
-    'api_version'           => 'Api-Version',
+    'request_cache_tag'     => '',   
+    // 路由缓存检测
+    'route_check_cache' => true,
+    // 路由缓存文件
+    'route_cache_file'  => runtime_path() . 'route.php',
 ];
