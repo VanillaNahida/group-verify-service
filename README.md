@@ -48,6 +48,7 @@
 
 - PHP 8.0+
 - PHP 扩展：fileinfo、sqlite3、pdo_sqlite,mbstring
+- 执行composer install命令
 
 2. 上传并设置站点目录
 
