@@ -1,15 +1,4 @@
 <?php
-
-// 处理SQLite数据库路径
-$sqlitePath = env('DB_SQLITE_PATH', 'database' . DIRECTORY_SEPARATOR . 'geetest.db');
-// 检查是否是绝对路径（Windows下以盘符开头，Linux下以/开头）
-if (strpos($sqlitePath, '/') === 0 || strpos($sqlitePath, '\\') === 0 || preg_match('/^[a-zA-Z]:/', $sqlitePath)) {
-    $sqliteDatabase = $sqlitePath;
-} else {
-    // 相对路径，使用root_path()拼接
-    $sqliteDatabase = root_path() . $sqlitePath;
-}
-
 return [
     // 默认使用的数据库连接配置
     'default'         => env('DB_DRIVER', 'sqlite'),
@@ -65,14 +54,14 @@ return [
             // 监听SQL
             'trigger_sql'     => env('APP_DEBUG', false),
             // 开启字段缓存
-            'fields_cache'    => false,
+            'fields_cache'    => true,
         ],
 
         'sqlite' => [
             // 数据库类型
             'type'            => 'sqlite',
             // 数据库名
-            'database'        => $sqliteDatabase,
+            'database'        => '数据库文件名称,绝对路径',
             // 数据库表前缀
             'prefix'          => '',
             // 是否需要断线重连
@@ -80,7 +69,7 @@ return [
             // 监听SQL
             'trigger_sql'     => env('APP_DEBUG', false),
             // 开启字段缓存
-            'fields_cache'    => false,
+            'fields_cache'    => true,
         ],
 
         // 更多的数据库配置信息
