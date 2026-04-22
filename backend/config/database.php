@@ -61,7 +61,7 @@ return [
             // 数据库类型
             'type'            => 'sqlite',
             // 数据库名
-            'database'        => '数据库文件名称,绝对路径',
+            'database'        => env('DB_PATH','../sqlite.db'),
             // 数据库表前缀
             'prefix'          => '',
             // 是否需要断线重连
