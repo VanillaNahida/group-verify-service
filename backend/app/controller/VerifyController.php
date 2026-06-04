@@ -84,7 +84,7 @@ class VerifyController extends BaseController
             return response('无效的验证链接', 400);
         }
 
-        $htmlFile = root_path() . 'public' . DIRECTORY_SEPARATOR . 'static' . DIRECTORY_SEPARATOR . 'verify' . DIRECTORY_SEPARATOR . 'index.html';
+        $htmlFile = root_path() . 'public' . DIRECTORY_SEPARATOR . 'index.html';
         if (!is_file($htmlFile)) {
             return response('验证页面资源缺失', 500);
         }
@@ -95,7 +95,7 @@ class VerifyController extends BaseController
 
     public function adminPage()
     {
-        $htmlFile = root_path() . 'public' . DIRECTORY_SEPARATOR . 'static' . DIRECTORY_SEPARATOR . 'verify' . DIRECTORY_SEPARATOR . 'index.html';
+        $htmlFile = root_path() . 'public' . DIRECTORY_SEPARATOR . 'index.html';
         if (!is_file($htmlFile)) {
             return response('验证页面资源缺失', 500);
         }
