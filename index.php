@@ -12,7 +12,7 @@ use think\App;
 // [ 应用入口文件 ]
 require __DIR__ . '/vendor/autoload.php';
 // 执行HTTP应用并响应
-$App=new App();
+$App=new App(__DIR__);
 $http = $App->http;
 $response = $http->run();
 $response->send();

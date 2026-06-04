@@ -14,4 +14,4 @@ if (!is_file($autoloadPath)) {
 require $autoloadPath;
 
 // 应用初始化
-(new App())->console->run();
+(new App(__DIR__))->console->run();
