@@ -477,21 +477,21 @@ class Index extends BaseController
   <form method="post" class="form" id="setupForm" autocomplete="off">
     <section class="panel" data-panel="1">
       <h2>步骤 1：环境检查</h2>
-      <p class="desc">先把站点运行目录指向 <span class="mono">backend/public/</span>，并确保上传了 <span class="mono">vendor/</span> 依赖。下面是当前服务器的检测结果（未通过项请先处理）。</p>
+      <p class="desc">先把站点运行目录指向 <span class="mono">public/</span>，并确保上传了 <span class="mono">vendor/</span> 依赖。下面是当前服务器的检测结果（未通过项请先处理）。</p>
       <ul class="checks">' . $checkItems . '</ul>
       <div class="tips">
         <p>常见修复：</p>
         <ul>
           <li>缺少扩展：在 PHP 配置中启用 <span class="mono">fileinfo / sqlite3 / pdo_sqlite</span></li>
-          <li>目录不可写：为 <span class="mono">backend/runtime</span>、<span class="mono">backend/database</span>、以及项目根目录授予写权限</li>
-          <li>vendor 缺失：请在本地/CI 执行 <span class="mono">composer install --no-dev -o</span> 后把 <span class="mono">backend/vendor</span> 一并上传</li>
+          <li>目录不可写：为 <span class="mono">runtime</span>、<span class="mono">database</span>、以及项目根目录授予写权限</li>
+          <li>vendor 缺失：请在本地/CI 执行 <span class="mono">composer install --no-dev -o</span> 后把 <span class="mono">vendor</span> 一并上传</li>
         </ul>
       </div>
     </section>
 
     <section class="panel" data-panel="2">
       <h2>步骤 2：填写配置</h2>
-      <p class="desc">这些配置会写入 SQLite 数据库的 <span class="mono">settings</span> 表；其中 <span class="mono">API_KEY</span> 会写入 <span class="mono">api_keys</span> 表。<span class="mono">backend/.env</span> 仅保存数据库连接信息。提交后会自动初始化 SQLite 数据库（默认 <span class="mono">backend/database/geetest.db</span>）。</p>
+      <p class="desc">这些配置会写入 SQLite 数据库的 <span class="mono">settings</span> 表；其中 <span class="mono">API_KEY</span> 会写入 <span class="mono">api_keys</span> 表。<span class="mono">.env</span> 仅保存数据库连接信息。提交后会自动初始化 SQLite 数据库（默认 <span class="mono">database/geetest.db</span>）。</p>
 
       <div class="group">
         <div class="group-title">极验配置</div>
@@ -552,7 +552,7 @@ class Index extends BaseController
 
     <section class="panel" data-panel="3">
       <h2>步骤 3：确认生成</h2>
-      <p class="desc">将生成 <span class="mono">backend/.env</span>（仅数据库连接）并初始化数据库，同时写入配置到 <span class="mono">settings</span> 与 <span class="mono">api_keys</span> 表。请确认配置无误。</p>
+      <p class="desc">将生成 <span class="mono">.env</span>（仅数据库连接）并初始化数据库，同时写入配置到 <span class="mono">settings</span> 与 <span class="mono">api_keys</span> 表。请确认配置无误。</p>
       <div class="confirm"><pre class="mono" id="confirmText"></pre></div>
       <div class="tips"><p>点击“生成”后，如果失败会显示具体错误原因；修正后重新提交即可。</p></div>
     </section>
