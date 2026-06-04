@@ -1,15 +1,18 @@
 <IfModule mod_rewrite.c>
-  RewriteEngine on
-  RewriteRule ^$ public/ [L]
-  RewriteRule ((?!(public/)).*)$ public/$1 [L]
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
 </IfModule>
 
-<FilesMatch "\.(php|php5|phtml|inc|env|log|sql)$">
+<FilesMatch "\.(php|php5|phtml|inc)$">
   Order Allow,Deny
   Deny from all
 </FilesMatch>
 
-<FilesMatch "^(composer\.json|composer\.lock|package\.json|\.travis\.yml|\.gitignore|README\.md)$">
+<FilesMatch "^index\.php$">
   Order Allow,Deny
-  Deny from all
+  Allow from all
 </FilesMatch>

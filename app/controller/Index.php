@@ -477,7 +477,7 @@ class Index extends BaseController
   <form method="post" class="form" id="setupForm" autocomplete="off">
     <section class="panel" data-panel="1">
       <h2>步骤 1：环境检查</h2>
-      <p class="desc">先把站点运行目录指向 <span class="mono">public/</span>，并确保上传了 <span class="mono">vendor/</span> 依赖。下面是当前服务器的检测结果（未通过项请先处理）。</p>
+      <p class="desc">先把站点运行目录指向仓库根目录，并确保上传了 <span class="mono">vendor/</span> 依赖。下面是当前服务器的检测结果（未通过项请先处理）。</p>
       <ul class="checks">' . $checkItems . '</ul>
       <div class="tips">
         <p>常见修复：</p>

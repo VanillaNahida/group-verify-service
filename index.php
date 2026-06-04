@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 use think\App;
 // [ 应用入口文件 ]
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 // 执行HTTP应用并响应
 $App=new App();
 $http = $App->http;
