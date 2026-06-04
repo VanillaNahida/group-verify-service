@@ -52,9 +52,9 @@
 
 2. 上传并设置站点目录
 
-- 上传 `backend/` 目录全部内容
-- 站点运行目录指向：`backend/public/`
-- 确保目录可写：`backend/runtime/`、`backend/database/`
+- 上传仓库全部内容
+- 站点运行目录指向仓库根目录
+- 确保目录可写：`runtime/`、`database/`
 
 3. 配置伪静态（Nginx 示例）
 
@@ -83,14 +83,14 @@ location / {
 ### 后端
 
 ```bash
-cd backend
+cd .
 composer install
 php think run
 ```
 
 ### 前端
 
-前端源码在 `frontend/`，构建产物输出到 `backend/public/static/verify/`。
+前端源码在 `frontend/`，构建产物输出到 `public/`。
 
 ```bash
 cd frontend
@@ -115,7 +115,7 @@ npm run build
 
 ## 配置说明
 
-推荐通过 `/setup` 或管理后台配置；也可手动创建 `backend/.env`（模板见 `backend/.example.env`）。
+推荐通过 `/setup` 或管理后台配置；也可手动创建 `.env`（模板见 `backend/.example.env`）。
 
 常用配置项：
 

@@ -9,9 +9,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
-  base: '/static/verify/',
+  base: '/',
   build: {
-    outDir: '../backend/public/static/verify',
+    outDir: '..',
     emptyOutDir: true,
     rollupOptions: {
       output: {
