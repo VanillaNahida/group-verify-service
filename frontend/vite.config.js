@@ -15,15 +15,12 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
+        // Keep the Vue/Arco dependency graph in one module. Splitting these
+        // packages independently can create an ES module initialization cycle.
         manualChunks(id) {
-          const s = String(id || '');
-          if (!s.includes('node_modules')) return;
-          if (s.includes('@arco-design')) return 'arco';
-          if (s.includes(`${path.sep}vue${path.sep}`) || s.includes(`${path.sep}@vue${path.sep}`)) return 'vue';
-          return 'vendor';
+          return String(id || '').includes('node_modules') ? 'vendor' : undefined;
         }
       }
     }
   }
 });
-
