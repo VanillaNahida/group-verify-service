@@ -1,4 +1,13 @@
 <?php
+$sqlitePath = (string)env('DB_PATH', '');
+if ($sqlitePath === '') {
+    $sqlitePath = app()->getRootPath() . 'database' . DIRECTORY_SEPARATOR . 'sqlite.db';
+} elseif ($sqlitePath[0] !== '/' && !preg_match('/^[a-zA-Z]:[\\\\\\/]/', $sqlitePath)) {
+    // .env commonly stores ./database/sqlite.db; resolve it from the app root,
+    // not PHP-FPM's working directory.
+    $sqlitePath = app()->getRootPath() . ltrim(str_replace(['/', '\\\\'], DIRECTORY_SEPARATOR, $sqlitePath), DIRECTORY_SEPARATOR);
+}
+
 return [
     // 默认使用的数据库连接配置
     'default'         => env('DB_DRIVER', 'sqlite'),
@@ -61,7 +70,7 @@ return [
             // 数据库类型
             'type'            => 'sqlite',
             // 数据库名
-            'database'        => env('DB_PATH', app()->getRootPath() . 'database' . DIRECTORY_SEPARATOR . 'sqlite.db'),
+            'database'        => $sqlitePath,
             // 数据库表前缀
             'prefix'          => '',
             // 是否需要断线重连
